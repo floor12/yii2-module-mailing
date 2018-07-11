@@ -1,0 +1,47 @@
+{
+  "name": "floor12/yii2-module-mailing",
+  "description": "Mailing module for yii2 projects.",
+  "type": "yii2-module",
+  "minimum-stability": "stable",
+  "keywords": [
+    "floor12",
+    "yii2 module",
+    "mailing",
+    "email",
+    "yii",
+    "yii2",
+    "yii 2"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "floor12",
+      "email": "floor12@protonmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "yiisoft/yii2": "~2.0.13",
+    "floor12/yii2-module-files": "*",
+    "floor12/yii2-editmodal": "*",
+    "kartik-v/yii2-widget-select2": "@dev",
+    "voskobovich/yii2-linker-behavior": "@dev",
+    "rmrevin/yii2-fontawesome": "~2.15"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "floor12\\mailing\\": [
+        "src/"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "floor12\\mailing\\tests\\": "tests/"
+    }
+  }
+}
