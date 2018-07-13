@@ -1,0 +1,26 @@
+.btn-mailing-add {
+    float: right;
+    margin-top: -35px;
+}
+
+.striked {
+    text-decoration: line-through;
+}
+
+.table-mailing .small {
+    color: #949494;
+    font-weight: 300;
+}
+
+.table-td-control {
+    min-width: 100px;
+    text-align: right;
+}
+
+div.filter-block {
+    background-color: #f9f9f9;
+    padding: 17px 16px 0px;
+    margin: 20px 0;
+    border-radius: 2px;
+    border: 1px #e2e2e2 solid;
+}

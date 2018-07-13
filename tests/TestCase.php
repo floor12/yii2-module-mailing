@@ -6,10 +6,9 @@
  * Time: 12:40
  */
 
-namespace floor12\files\tests;
+namespace floor12\mailing\tests;
 
 use yii\console\Application;
-use floor12\files\tests\data\m180627_121715_files;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +45,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         ];
         \Yii::$app->set('db', $db);
 
-        \Yii::createObject(m180627_121715_files::class, [])->safeUp();
+     //   \Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
 
     }
 
@@ -55,7 +54,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function clearDb()
     {
-        \Yii::createObject(m180627_121715_files::class, [])->safeDown();
+    //    \Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
     }
 
     /**

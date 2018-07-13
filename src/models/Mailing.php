@@ -1,43 +1,40 @@
 <?php
 
-namespace  floor12\mailing\models;
+namespace floor12\mailing\models;
 
-use app\models\Client;
 use Yii;
-use yii\behaviors\TimestampBehavior;
+use floor12\files\components\FileBehaviour;
 
 /**
  * This is the model class for table "mailing".
  *
- * @property integer $id
- * @property integer $status
- * @property string $title
- * @property string $content
- * @property integer $created
- * @property integer $type_id
- * @property array $types
- * @property array $statuses
- * @property string $typeString
- * @property string $statusString
- * @property integer $updated
- * @property integer $send
- * @property integer $create_user_id
- * @property integer $update_user_id
- * @property integer $template_id
- * @property Client[] $clients
- * @property array $client_ids
+ * @property int $id
+ * @property int $status Текущее состояние
+ * @property string $title Заголовок
+ * @property string $content Содержание
+ * @property int $created Создана
+ * @property int $updated Обновлена
+ * @property int $send Отправлена
+ * @property int $recipient_total Всего получателей
+ * @property int $emails_array Массив адресов
+ * @property int $list_id Список для рассылки
+ * @property int $create_user_id Создал
+ * @property int $update_user_id Обновил
+ *
+ * @property MailingEmail[] $emails
+ * @property MailingLink[] $mailingLinks
+ * @property MailingList $list
+ * @property MailingStat[] $mailingStats
+ * @property MailingUser[] $mailingUsers
+ * @property MailingViewed[] $mailingVieweds
  */
 class Mailing extends \yii\db\ActiveRecord
 {
-    const READ_GIF_URL = "http://s-cadmin.vmserver/mailing/mailview";
 
     const STATUS_DRAFT = 0;
     const STATUS_WAITING = 1;
     const STATUS_SENDING = 2;
     const STATUS_SEND = 3;
-
-    const TYPE_SIMPLE = 0;
-    const TYPE_SHEDULED = 1;
 
     public $statuses = [
         self::STATUS_DRAFT => "Черновик",
@@ -46,14 +43,18 @@ class Mailing extends \yii\db\ActiveRecord
         self::STATUS_SEND => "Отправлено",
     ];
 
-    public $types = [
-        self::TYPE_SIMPLE => "Новостная рассылка",
-        self::TYPE_SHEDULED => "Событийная",
-    ];
-
+    public $emails_array = [];
 
     /**
-     * @inheritdoc
+     * @return string
+     */
+    public function getStatus_string()
+    {
+        return $this->statuses[$this->status];
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -61,163 +62,132 @@ class Mailing extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['title', 'content',], 'required'],
-            [['status', 'created', 'updated', 'send', 'create_user_id', 'update_user_id'], 'integer'],
-            [['title'], 'string', 'max' => 255],
+            [['status', 'title', 'content', 'created', 'updated'], 'required'],
+            [['status', 'created', 'updated', 'send', 'list_id', 'create_user_id', 'update_user_id'], 'integer'],
             [['content'], 'string'],
-            [['client_ids'], 'each', 'rule' => ['integer']],
-            [['client_ids'], 'required', 'message' => 'Необходимо выбрать получателей.'],
-            ['files', 'file', 'maxFiles' => 10]
+            [['title'], 'string', 'max' => 255],
+            ['files', 'file', 'maxFiles' => 20],
+            ['emails_array', 'each', 'rule' => ['email'], 'message' => 'Есть невалидный адрес']
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'status' => 'Статус',
-            'statusString' => 'Статус',
-            'typeString' => 'Тип',
-            'title' => 'Тема',
-            'content' => 'Содержание рассылки',
-            'created' => 'Создано',
-            'updated' => 'Updated',
-            'files' => 'Приложенные файлы',
-            'send' => 'Отправлено',
-            'client_ids' => 'Получатели',
-            'clients_total' => 'Получателей',
-            'clients_send' => 'Отправлено',
-            'clients_opened' => 'Открыто',
-            'create_user_id' => 'Create User ID',
-            'update_user_id' => 'Update User ID',
+            'status' => 'Текущее состояние',
+            'status_string' => 'Текущее состояние',
+            'title' => 'Заголовок',
+            'content' => 'Содержание',
+            'created' => 'Создана',
+            'updated' => 'Обновлена',
+            'send' => 'Отправлена',
+            'list_id' => 'Список для рассылки',
+            'create_user_id' => 'Создал',
+            'update_user_id' => 'Обновил',
+            'recipient_total' => 'Получателей',
+            'emails_array' => 'Получатели (внешние)',
+            'files' => 'Приложения'
         ];
     }
 
-    public function getStatusString()
-    {
-        return $this->statuses[$this->status];
-    }
 
-    public function getTypeString()
-    {
-        return $this->types[$this->type_id];
-    }
-
-    public function getClients()
-    {
-        return $this->hasMany(Client::className(), ['user_id' => 'client_id'])
-            ->viaTable('mailing_client', ['mailing_id' => 'id']);
-    }
-
-
-    public function getClients_total()
-    {
-        return $this->getClients()->count();
-    }
-
-
-    public function getClients_send()
-    {
-        return $this->hasMany(Client::className(), ['user_id' => 'client_id'])
-            ->viaTable('mailing_client', ['mailing_id' => 'id'], function ($query) {
-                $query->andWhere(['status' => 1]);
-            })->count();
-    }
-
-    public function getClients_opened()
-    {
-        return MailView::find()->where(['mailing_id' => $this->id])->count();
-    }
-
-    public function beforeSave($insert)
-    {
-        if (isset(\Yii::$app->components['user'])) {
-
-            if ($this->isNewRecord && !$this->create_user_id) {
-                $this->create_user_id = \Yii::$app->user->id;
-            }
-
-            if (!$this->update_user_id)
-                $this->update_user_id = \Yii::$app->user->id;
-        }
-
-        return parent::beforeSave($insert);
-    }
-
-    public function send()
-    {
-        $this->status = self::STATUS_WAITING;
-        $this->send = null;
-
-        $views = MailView::find()->where(['mailing_id' => $this->id])->all();
-        foreach ($views as $view)
-            $view->delete();
-        return $this->save();
-    }
-
-
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
-            'timestamp' => array(
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created',
-                'updatedAtAttribute' => 'updated'
-            ),
-            'ManyToManyBehavior' => [
-                'class' => \app\components\ManyToManyBehavior::className(),
-                'relations' => [
-                    'client_ids' => 'clients',
-                ],
-            ],
             'files' => [
-                'class' => \floor12\files\components\FileBehaviour::className(),
+                'class' => FileBehaviour::class,
                 'attributes' => ['files']
-            ]
-//            'files' => [
-//                'class' => \floor12\superfile\SuperfileBehavior::className(),
-//                'fields' => [
-//                    'files' => [
-//                        'title' => 'Прикрепленные файлы',
-//                        'preview' => false,
-//                        'multiply' => true,
-//                        'maxSize' => 5000000,
-//                        'button' => 'Добавить файлы',
-//                        'showName' => true,
-//                        'showControl' => true,
-//                        'label' => true,
-//                        'successFunction' => 'info("Файл загружен ",1);',
-//                        'deleteFunction' => 'info("Файл удален",1);',
-//                        'errorFunction' => 'info(message,2);',
-//                    ],
-//                ]
-//            ]
-
+            ],
         ];
     }
 
-    public function status($status)
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getList()
     {
-        $this->status = $status;
-
-        if ($status == Mailing::STATUS_SEND)
-            $this->send = time();
-
-        $this->save(false);
+        return $this->hasOne(MailingList::class, ['id' => 'list_id']);
     }
 
-
-    public function unsubscribeLink($hash)
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmails()
     {
-        return self::READ_GIF_URL . "?id={$this->id}&hash={$hash}";
+        return $this->hasMany(MailingEmail::className(), ['mailing_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMailingLinks()
+    {
+        return $this->hasMany(MailingLink::className(), ['mailing_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMailingStats()
+    {
+        return $this->hasMany(MailingStat::className(), ['mailing_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMailingUsers()
+    {
+        return $this->hasMany(MailingUser::className(), ['mailing_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMailingVieweds()
+    {
+        return $this->hasMany(MailingViewed::className(), ['mailing_id' => 'id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return \floor12\mailing\models\query\MailingQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \floor12\mailing\models\query\MailingQuery(get_called_class());
+    }
+
+    public function afterFind()
+    {
+        $this->loadEmails();
+        parent::afterFind();
+    }
+
+    public function loadEmails()
+    {
+        $this->emails_array = [];
+        if ($this->emails)
+            foreach ($this->emails as $email)
+                $this->emails_array[$email->email] = $email->email;
+    }
+
+    public function getRecipient_total()
+    {
+        $externalEmailsCount = $this->getEmails()->count();
+        $listEmailsCount = $this->list ? $this->list->getListItems()->count() : 0;
+        return $externalEmailsCount + $listEmailsCount;
     }
 }
-
