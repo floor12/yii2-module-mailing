@@ -57,7 +57,7 @@ class MailingUpdateTest extends TestCase
     /** Проверяем создание, выставления временных меток и добавление адресов
      * @throws \yii\base\InvalidConfigException
      */
-    public function testSuccess()
+    public function testSuccessCreate()
     {
         $model = new Mailing();
         $user = new MockedUser();
@@ -74,32 +74,35 @@ class MailingUpdateTest extends TestCase
         $this->assertEquals(2, sizeof($model->emails));
         $this->assertEquals('content', $model->content);
         $this->assertEquals('title', $model->title);
+        $this->assertEquals($user->getId(), $model->create_user_id);
+        $this->assertEquals($user->getId(), $model->update_user_id);
         $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
     }
 
-//
-//    /** Вызываем пуск рассылки, которая имеет получателей.
-//     * @expectedException yii\web\BadRequestHttpException
-//     * @expectedExceptionMessage У этой рассылки нет ни одного получателя.
-//     */
-//    public function testHasNoemail()
-//    {
-//        $model = Mailing::findOne(1);
-//        Yii::createObject(MailingSend::class, [$model])->execute();
-//    }
-//
-//
-//    /**
-//     * Проверяем нормальный вариант
-//     */
-//    public function testOk()
-//    {
-//        $model = Mailing::findOne(3);
-//        $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
-//        Yii::createObject(MailingSend::class, [$model])->execute();
-//        $model->refresh();
-//        $this->assertEquals(Mailing::STATUS_WAITING, $model->status);
-//    }
+    /** Проверяем создание, выставления временных меток и добавление адресов
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function testSuccessUpdate()
+    {
+        $model = Mailing::findOne(3);
+        $user = new MockedUser();
+        $data = ['Mailing' => [
+            'content' => 'content',
+            'title' => 'title',
+            'emails_array' => ['test44@test.ru', 'test55@test.ru']
+        ]];
 
+        $this->assertEquals(3, sizeof($model->emails));
 
+        Yii::createObject(MailingUpdate::class, [$model, $data, $user])->execute();
+
+        $model->refresh();
+
+        $this->assertEquals(2, sizeof($model->emails));
+        $this->assertEquals('content', $model->content);
+        $this->assertEquals('title', $model->title);
+        $this->assertEquals(10, $model->create_user_id);
+        $this->assertEquals($user->getId(), $model->update_user_id);
+        $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
+    }
 }

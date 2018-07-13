@@ -31,6 +31,19 @@ return [
         'content' => 1,
         'created' => 1,
         'updated' => 1,
-        'status' => Mailing::STATUS_DRAFT
+        'status' => Mailing::STATUS_DRAFT,
+        'create_user_id' => 10,
+        'update_user_id' => 10,
+    ],
+    'ok with list' => [
+        'id' => 4,
+        'title' => 1,
+        'content' => 1,
+        'created' => 1,
+        'updated' => 1,
+        'list_id' => 1,
+        'status' => Mailing::STATUS_DRAFT,
+        'create_user_id' => 10,
+        'update_user_id' => 10,
     ]
 ];

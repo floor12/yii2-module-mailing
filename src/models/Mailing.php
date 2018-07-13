@@ -20,6 +20,7 @@ use floor12\files\components\FileBehaviour;
  * @property int $list_id Список для рассылки
  * @property int $create_user_id Создал
  * @property int $update_user_id Обновил
+ * @property array $recipients Массив всех адресов для отправки
  *
  * @property MailingEmail[] $emails
  * @property MailingLink[] $mailingLinks
@@ -170,12 +171,18 @@ class Mailing extends \yii\db\ActiveRecord
         return new \floor12\mailing\models\query\MailingQuery(get_called_class());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         $this->loadEmails();
         parent::afterFind();
     }
 
+    /**
+     * Загружаем связанные модели адресов отправки во временное поле
+     */
     public function loadEmails()
     {
         $this->emails_array = [];
@@ -184,10 +191,22 @@ class Mailing extends \yii\db\ActiveRecord
                 $this->emails_array[$email->email] = $email->email;
     }
 
+    /** Подсчет общего количества получателей
+     * @return int
+     */
     public function getRecipient_total()
     {
-        $externalEmailsCount = $this->getEmails()->count();
-        $listEmailsCount = $this->list ? $this->list->getListItems()->count() : 0;
-        return $externalEmailsCount + $listEmailsCount;
+        return intval(sizeof($this->recipients));
+    }
+
+    /** Общий массив адресов-получателей
+     * @return array
+     */
+    public function getRecipients()
+    {
+        $externalEmails = $this->getEmails()->select('email')->column();
+        $listEmails = $this->list ? $this->list->getListItemsActive()->select('email')->column() : [];
+        $allEmails = array_merge($externalEmails, $listEmails);
+        return array_unique($allEmails);
     }
 }

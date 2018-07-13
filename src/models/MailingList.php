@@ -12,6 +12,7 @@ use Yii;
  * @property int $status Скрыть
  *
  * @property MailingListItem[] $listItems
+ * @property MailingListItem[] $listItemsActive
  */
 class MailingList extends \yii\db\ActiveRecord
 {
@@ -56,6 +57,14 @@ class MailingList extends \yii\db\ActiveRecord
     public function getListItems()
     {
         return $this->hasMany(MailingListItem::className(), ['list_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getListItemsActive()
+    {
+        return $this->getListItems()->active();
     }
 
     /**

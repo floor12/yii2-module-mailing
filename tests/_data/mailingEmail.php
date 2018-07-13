@@ -20,4 +20,12 @@ return [
         'mailing_id' => 3,
         'email' => 'test3@test.ru'
     ],
+    [
+        'mailing_id' => 4,
+        'email' => 'test2@test.ru'
+    ],
+    [
+        'mailing_id' => 4,
+        'email' => 'not@unuquie.com'
+    ],
 ];

@@ -2,6 +2,8 @@
 
 namespace floor12\mailing\models\query;
 
+use floor12\mailing\models\MailingListItem;
+
 /**
  * This is the ActiveQuery class for [[\floor12\mailing\models\MailingListItem]].
  *
@@ -9,10 +11,10 @@ namespace floor12\mailing\models\query;
  */
 class MailingListItemQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function active()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
+        return $this->andWhere(['status' => MailingListItem::STATUS_ACTIVE]);
+    }
 
     /**
      * {@inheritdoc}
