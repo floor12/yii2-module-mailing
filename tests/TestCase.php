@@ -9,6 +9,7 @@
 namespace floor12\mailing\tests;
 
 use yii\console\Application;
+use \Yii;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -41,11 +42,15 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         $db = [
             'class' => 'yii\db\Connection',
-            'dsn' => "sqlite:$this->sqlite",
+            'dsn' => 'mysql:host=localhost;dbname=mailing-test',
+            'username' => 'mailing-test',
+            'password' => '6s2MGxioqGRvNIkL',
+            'charset' => 'utf8',
         ];
-        \Yii::$app->set('db', $db);
 
-     //   \Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
+        Yii::$app->set('db', $db);
+
+      //  Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
 
     }
 
@@ -54,7 +59,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function clearDb()
     {
-    //    \Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
+      //  Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
     }
 
     /**

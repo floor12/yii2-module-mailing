@@ -8,31 +8,83 @@
 
 namespace floor12\mailing\tests\logic;
 
+use floor12\mailing\logic\MailingSend;
+use floor12\mailing\models\Mailing;
+use floor12\mailing\tests\fixtures\MailingFixture;
+use floor12\mailing\tests\fixtures\MailingEmailFixture;
 use floor12\mailing\tests\TestCase;
+use \Yii;
 
 /**
- * Class FileReformatTest
- * @package floor12\files\tests\logic
- * @group reformat
+ * @group mailing-test
  */
-class FileReformatTest extends TestCase
+class MailingSendTest extends TestCase
 {
+
+    public function _before()
+    {
+        $fixtureMailing = new MailingFixture();
+        $fixtureMailing->dataFile = __DIR__ . "/../_data/mailing.php";
+        $fixtureMailing->load();
+
+        $fixtureMailingEmail = new MailingEmailFixture();
+        $fixtureMailingEmail->dataFile = __DIR__ . "/../_data/mailingEmail.php";
+        $fixtureMailingEmail->load();
+    }
+
+    public function _after()
+    {
+        Mailing::deleteAll();
+    }
+
 
     public function setUp()
     {
         parent::setUp();
         $this->setApp();
+        $this->_before();
     }
 
     public function tearDown()
     {
+        $this->_after();
         $this->clearDb();
         parent::tearDown();
+
     }
 
-    public function testAlreadySend()
+    /** Вызываем пуск рассылки, которая не в статусе черновика
+     * @expectedException yii\web\BadRequestHttpException
+     * @expectedExceptionMessage Эта рассылка не находится в статусе черновика.
+     */
+    public function testNotDraft()
     {
-        $this->assertTrue(true);
+        $model = Mailing::findOne(2);
+        Yii::createObject(MailingSend::class, [$model])->execute();
+    }
+
+
+    /** Вызываем пуск рассылки, которая имеет получателей.
+     * @expectedException yii\web\BadRequestHttpException
+     * @expectedExceptionMessage У этой рассылки нет ни одного получателя.
+     */
+    public function testHasNoemail()
+    {
+        $model = Mailing::findOne(1);
+        Yii::createObject(MailingSend::class, [$model])->execute();
+    }
+
+
+    /**
+     * Проверяем нормальный вариант
+     */
+    public function testOk()
+    {
+        $model = Mailing::findOne(3);
+        $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
+        Yii::createObject(MailingSend::class, [$model])->execute();
+        $model->refresh();
+        $this->assertEquals(Mailing::STATUS_WAITING, $model->status);
     }
 
 

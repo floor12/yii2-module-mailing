@@ -24,6 +24,13 @@ class MailingUpdate
         $this->_data = $data;
         $this->_identity = $identity;
         $this->_model = $model;
+        if ($this->_model->isNewRecord) {
+            $this->_model->created = time();
+            $this->_model->create_user_id = $this->_identity->getId();
+            $this->_model->status = Mailing::STATUS_DRAFT;
+        }
+        $this->_model->updated = time();
+        $this->_model->update_user_id = $this->_identity->getId();
     }
 
     public function execute()

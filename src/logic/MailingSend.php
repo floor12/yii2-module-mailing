@@ -20,6 +20,9 @@ class MailingSend
         $this->_model = $model;
         if ($this->_model->status != Mailing::STATUS_DRAFT)
             throw new BadRequestHttpException('Эта рассылка не находится в статусе черновика.');
+
+        if (!$model->recipient_total)
+            throw new BadRequestHttpException('У этой рассылки нет ни одного получателя.');
     }
 
     public function execute()
