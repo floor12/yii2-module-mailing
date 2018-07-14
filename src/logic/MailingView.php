@@ -8,23 +8,27 @@
 
 namespace floor12\mailing\logic;
 
-use app\models\mailing\MailView;
+use floor12\mailing\models\Mailing;
+use floor12\mailing\models\MailingViewed;
+use yii\web\NotFoundHttpException;
 
-class MailViewed
+class MailingView
 {
     private $_id, $_hash;
 
     public function __construct($id, $hash)
     {
+        if (!Mailing::findOne((int)$id))
+            throw new NotFoundHttpException('Рассылка не найдена.');
         $this->_id = $id;
         $this->_hash = $hash;
     }
 
     public function execute()
     {
-        $view = new MailView();
+        $view = new MailingViewed();
         $view->mailing_id = $this->_id;
         $view->hash = $this->_hash;
-        $view->save();
+        return $view->save();
     }
 }

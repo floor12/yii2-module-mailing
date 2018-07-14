@@ -10,6 +10,7 @@ namespace floor12\mailing\tests\logic;
 
 use floor12\mailing\logic\MailingSend;
 use floor12\mailing\models\Mailing;
+use floor12\mailing\models\MailingEmail;
 use floor12\mailing\tests\fixtures\MailingFixture;
 use floor12\mailing\tests\fixtures\MailingEmailFixture;
 use floor12\mailing\tests\TestCase;
@@ -35,6 +36,7 @@ class MailingSendTest extends TestCase
     public function _after()
     {
         Mailing::deleteAll();
+        MailingEmail::deleteAll();
     }
 
 

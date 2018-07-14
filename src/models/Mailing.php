@@ -209,4 +209,12 @@ class Mailing extends \yii\db\ActiveRecord
         $allEmails = array_merge($externalEmails, $listEmails);
         return array_unique($allEmails);
     }
+
+    /** Подсчет просмотров рассылки
+     * @return int
+     */
+    public function getViews()
+    {
+        return intval($this->getMailingVieweds()->count());
+    }
 }
