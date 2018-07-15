@@ -10,17 +10,16 @@
  *
  */
 
-use yii\helpers\Html;
-use yii\widgets\Pjax;
-use yii\grid\GridView;
-use rmrevin\yii\fontawesome\FontAwesome;
-use floor12\mailing\assets\MailingAsset;
-use floor12\banner\models\AdsBanner;
 use floor12\editmodal\EditModalHelper;
-use yii\widgets\ActiveForm;
-use \floor12\mailing\widgets\TabWidget;
+use floor12\mailing\assets\MailingAsset;
 use floor12\mailing\models\Mailing;
-use \yii\helpers\Url;
+use floor12\mailing\widgets\TabWidget;
+use rmrevin\yii\fontawesome\FontAwesome;
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 MailingAsset::register($this);
 
@@ -78,6 +77,8 @@ echo GridView::widget([
         ],
         'status_string',
         'recipient_total',
+        'views',
+        'clicks',
         ['contentOptions' => ['style' => 'min-width:100px; text-align:right;'],
             'content' => function (Mailing $model) {
                 $ret = Html::a(FontAwesome::icon('pencil'), NULL, ['onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";

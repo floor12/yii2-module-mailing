@@ -11,6 +11,7 @@ namespace floor12\mailing\logic;
 use floor12\mailing\models\Mailing;
 use Yii;
 use yii\base\ErrorException;
+use yii\base\InvalidConfigException;
 
 /**
  * Class MailingQueueRun
@@ -25,13 +26,21 @@ class MailingQueueRun
 
     public function __construct()
     {
+        $this->_module = Yii::$app->getModule('mailing');
+
+        if (!$this->_module->fromEmail)
+            throw new InvalidConfigException('В конфигурации модуля не указан `fromEmail`.');
+
+        if (!$this->_module->fromName)
+            throw new InvalidConfigException('В конфигурации модуля не указан `fromName`.');
+
+        if (!$this->_module->htmlTemplate)
+            throw new InvalidConfigException('В конфигурации модуля не указан `htmlTemplate`.');
+
         if (Mailing::find()->where(['status' => Mailing::STATUS_SENDING])->one())
             throw new ErrorException('Очередь отправки занята.');
 
-        $this->_module = Yii::$app->getModule('mailing');
-
         $this->_mailing = Mailing::find()->where(['status' => Mailing::STATUS_WAITING])->one();
-
     }
 
     public function execute()
@@ -56,7 +65,7 @@ class MailingQueueRun
                     ['html' => $this->_module->htmlTemplate],
                     [
                         'content' => $this->_mailing->content,
-                        'gifUrl' => $this->_module->makeStatGifUrl(1, 1)
+                        'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash)
                     ]
                 )
                 ->setFrom([$this->_module->fromEmail => $this->_module->fromName])

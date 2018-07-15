@@ -112,7 +112,9 @@ class Mailing extends \yii\db\ActiveRecord
             'update_user_id' => 'Обновил',
             'recipient_total' => 'Получателей',
             'emails_array' => 'Получатели (внешние)',
-            'files' => 'Приложения'
+            'files' => 'Приложения',
+            'clicks' => 'Кликов',
+            'views' => 'Просмотров'
         ];
     }
 
