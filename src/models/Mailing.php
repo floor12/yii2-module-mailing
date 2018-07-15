@@ -2,7 +2,6 @@
 
 namespace floor12\mailing\models;
 
-use Yii;
 use floor12\files\components\FileBehaviour;
 
 /**
@@ -21,11 +20,12 @@ use floor12\files\components\FileBehaviour;
  * @property int $create_user_id Создал
  * @property int $update_user_id Обновил
  * @property array $recipients Массив всех адресов для отправки
+ * @property integer $clicks
  *
  * @property MailingEmail[] $emails
- * @property MailingLink[] $mailingLinks
+ * @property MailingLink[] $links
  * @property MailingList $list
- * @property MailingStat[] $mailingStats
+ * @property MailingStat[] $mailingStat
  * @property MailingUser[] $mailingUsers
  * @property MailingViewed[] $mailingVieweds
  */
@@ -47,19 +47,28 @@ class Mailing extends \yii\db\ActiveRecord
     public $emails_array = [];
 
     /**
-     * @return string
-     */
-    public function getStatus_string()
-    {
-        return $this->statuses[$this->status];
-    }
-
-    /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'mailing';
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return \floor12\mailing\models\query\MailingQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \floor12\mailing\models\query\MailingQuery(get_called_class());
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus_string()
+    {
+        return $this->statuses[$this->status];
     }
 
     /**
@@ -73,7 +82,14 @@ class Mailing extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['title'], 'string', 'max' => 255],
             ['files', 'file', 'maxFiles' => 20],
-            ['emails_array', 'each', 'rule' => ['email'], 'message' => 'Есть невалидный адрес']
+            ['emails_array', 'each', 'rule' => ['email'], 'message' => 'Есть невалидный адрес'],
+            ['status', 'in', 'range' => [
+                self::STATUS_DRAFT,
+                self::STATUS_WAITING,
+                self::STATUS_SENDING,
+                self::STATUS_SEND
+            ]
+            ]
         ];
     }
 
@@ -100,7 +116,6 @@ class Mailing extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * @inheritdoc
      */
@@ -125,25 +140,9 @@ class Mailing extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEmails()
-    {
-        return $this->hasMany(MailingEmail::className(), ['mailing_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMailingLinks()
+    public function getLinks()
     {
         return $this->hasMany(MailingLink::className(), ['mailing_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMailingStats()
-    {
-        return $this->hasMany(MailingStat::className(), ['mailing_id' => 'id']);
     }
 
     /**
@@ -152,23 +151,6 @@ class Mailing extends \yii\db\ActiveRecord
     public function getMailingUsers()
     {
         return $this->hasMany(MailingUser::className(), ['mailing_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMailingVieweds()
-    {
-        return $this->hasMany(MailingViewed::className(), ['mailing_id' => 'id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \floor12\mailing\models\query\MailingQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new \floor12\mailing\models\query\MailingQuery(get_called_class());
     }
 
     /**
@@ -210,11 +192,43 @@ class Mailing extends \yii\db\ActiveRecord
         return array_unique($allEmails);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmails()
+    {
+        return $this->hasMany(MailingEmail::className(), ['mailing_id' => 'id']);
+    }
+
     /** Подсчет просмотров рассылки
      * @return int
      */
     public function getViews()
     {
         return intval($this->getMailingVieweds()->count());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMailingVieweds()
+    {
+        return $this->hasMany(MailingViewed::className(), ['mailing_id' => 'id']);
+    }
+
+    /** Подсчет кликов
+     * @return int
+     */
+    public function getClicks()
+    {
+        return intval($this->getMailingStat()->count());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMailingStat()
+    {
+        return $this->hasMany(MailingStat::className(), ['mailing_id' => 'id']);
     }
 }

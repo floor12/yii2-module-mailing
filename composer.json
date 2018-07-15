@@ -22,7 +22,8 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "yiisoft/yii2": "~2.0.13",
+    "yiisoft/yii2": "*",
+    "yiisoft/yii2-swiftmailer": "*",
     "floor12/yii2-module-files": "*",
     "floor12/yii2-editmodal": "*",
     "kartik-v/yii2-widget-select2": "@dev",

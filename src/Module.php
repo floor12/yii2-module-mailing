@@ -26,4 +26,47 @@ class Module extends \yii\base\Module
      */
     public $editRole = '@';
 
+    /** Домен для простановки ссылок статистики.
+     * Так как отправка идет из консоли, то приложение ничего не знает о домене, на котором оно запускатся.
+     * Поэтому необходимо прописать домен отедльно.
+     * @var string
+     */
+    public $domain = "https://exemple.com";
+
+    /** По причинам, указанным выше, маршруты статистики и редиректа для ссылок можно переопределить.
+     * @var string
+     */
+    public $statRoute = "/mailing/stat/gif?id={id}&hash={hash}";
+
+    /**
+     * @var string
+     */
+    public $redirectRoute = "/mailing/stat/link?hash={hash}";
+
+    /** Имя шаблона для отправки рассылок
+     * @var string
+     */
+    public $htmlTemplate;
+
+    /** Адрес электронной почты, который подставлять в отправителя
+     * @var string
+     */
+    public $fromEmail;
+
+    /** Имя отправителя рассылок
+     * @var string
+     */
+    public $fromName;
+
+
+    public function makeStatGifUrl($id, $hash)
+    {
+        return $this->domain . str_replace(['{id}', '{hash}'], [$id, $hash], $this->statRoute);
+    }
+
+    public function makeRedirectUrl($hash)
+    {
+        return $this->domain . str_replace('{hash}', $hash, $this->redirectRoute);
+    }
+
 }

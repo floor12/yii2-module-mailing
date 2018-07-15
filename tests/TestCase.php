@@ -8,8 +8,8 @@
 
 namespace floor12\mailing\tests;
 
+use Yii;
 use yii\console\Application;
-use \Yii;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +26,18 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->mockApplication();
     }
 
+    /**
+     *  Запускаем приложение
+     */
+    protected function mockApplication()
+    {
+        new Application([
+            'id' => 'testapp',
+            'basePath' => __DIR__,
+            'vendorPath' => dirname(__DIR__) . '/vendor',
+            'runtimePath' => __DIR__ . '/runtime',
+        ]);
+    }
 
     /**
      * Настраиваем основные параметры приложения: базу данных и модуль
@@ -40,6 +52,15 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         \Yii::$app->setModule('files', $files);
 
 
+        $mailingModule = [
+            'class' => 'floor12\mailing\Module',
+            'fromEmail' => 'test@example.com',
+            'fromName' => 'Служба рассылки',
+            'htmlTemplate' => 'mailing-test-html'
+        ];
+
+        \Yii::$app->setModule('mailing', $mailingModule);
+
         $db = [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=mailing-test',
@@ -50,7 +71,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         Yii::$app->set('db', $db);
 
-      //  Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
+        $mailer = [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => true,
+        ];
+
+        Yii::$app->set('mailer', $mailer);
+
+        //  Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
 
     }
 
@@ -59,7 +87,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function clearDb()
     {
-      //  Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
+        //  Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
     }
 
     /**
@@ -70,20 +98,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->destroyApplication();
         parent::tearDown();
     }
-
-    /**
-     *  Запускаем приложение
-     */
-    protected function mockApplication()
-    {
-        new Application([
-            'id' => 'testapp',
-            'basePath' => __DIR__,
-            'vendorPath' => dirname(__DIR__) . '/vendor',
-            'runtimePath' => __DIR__ . '/runtime',
-        ]);
-    }
-
 
     /**
      * Убиваем приложение
