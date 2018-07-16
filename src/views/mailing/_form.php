@@ -8,14 +8,16 @@
  * @var $model \floor12\mailing\models\Mailing
  * @var $this \yii\web\View
  * @var $lists array
+ * @var $module \floor12\mailing\Module
  *
  */
 
-use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-use marqu3s\summernote\Summernote;
-use kartik\select2\Select2;
 use floor12\files\components\FileInputWidget;
+use floor12\files\logic\ClassnameEncoder;
+use kartik\select2\Select2;
+use marqu3s\summernote\Summernote;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 $form = ActiveForm::begin([
     'options' => ['class' => 'modaledit-form'],
@@ -54,6 +56,20 @@ $form = ActiveForm::begin([
             <?= $form->field($model, 'status')->dropDownList($model->statuses) ?>
         </div>
     </div>
+
+    <?php
+    if ($module->linkedModels)
+        foreach ($module->linkedModels as $key => $linkedModel) {
+            $fieldName = Yii::createObject(ClassnameEncoder::class, [$linkedModel]);
+            echo $form->field($model, "external_ids[{$key}]")->label($linkedModel::getMailingLabel())->widget(Select2::class, [
+                'data' => $linkedModel::getMailingList(),
+                'pluginOptions' => [
+                    'tags' => true,
+                    'multiple' => true
+                ]
+            ]);
+        }
+    ?>
 
 </div>
 

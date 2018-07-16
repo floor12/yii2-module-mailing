@@ -8,9 +8,10 @@
 
 namespace floor12\mailing\logic;
 
-
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
+use floor12\mailing\models\MailingExternal;
+use Yii;
 use yii\web\IdentityInterface;
 
 class MailingUpdate
@@ -18,9 +19,12 @@ class MailingUpdate
     private $_model;
     private $_data;
     private $_identity;
+    private $_module;
 
     public function __construct(Mailing $model, array $data, IdentityInterface $identity)
     {
+        $this->_module = Yii::$app->getModule('mailing');
+
         $this->_data = $data;
         $this->_identity = $identity;
         $this->_model = $model;
@@ -38,6 +42,8 @@ class MailingUpdate
         $this->_model->load($this->_data);
         if ($this->_model->save()) {
             $this->linkEmails();
+            if ($this->_module->linkedModels)
+                $this->linkExternal();
             return true;
         }
         return false;
@@ -55,6 +61,25 @@ class MailingUpdate
                 $emailObject->mailing_id = $this->_model->id;
                 $emailObject->email = $email;
                 $emailObject->save();
+            }
+    }
+
+    /**
+     * Линкуем текущую рассылку с моделями проекта по которым тоже надо рассылать
+     */
+    private function linkExternal()
+    {
+        if ($this->_module->linkedModels)
+            foreach ($this->_module->linkedModels as $linkedModelKey => $linkedModelClass) {
+                MailingExternal::deleteAll(['class' => $linkedModelClass, 'mailing_id' => $this->_model->id]);
+                if (isset($this->_data['Mailing']['external_ids'][$linkedModelKey]))
+                    foreach ($this->_data['Mailing']['external_ids'][$linkedModelKey] as $external_id) {
+                        $externalModel = new MailingExternal();
+                        $externalModel->mailing_id = $this->_model->id;
+                        $externalModel->class = $linkedModelClass;
+                        $externalModel->object_id = $external_id;
+                        $externalModel->save();
+                    }
             }
     }
 }

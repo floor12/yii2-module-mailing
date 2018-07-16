@@ -11,11 +11,12 @@ namespace floor12\mailing\controllers;
 use floor12\mailing\logic\MailingSend;
 use floor12\mailing\logic\MailingUpdate;
 use floor12\mailing\models\filters\MailingFilter;
-use yii\web\Controller;
-use yii\filters\AccessControl;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingList;
-use \Yii;
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class MailingController extends Controller
 {
@@ -35,38 +36,16 @@ class MailingController extends Controller
         ];
     }
 
-//    public function actionMailview($hash, $id)
-//    {
-//        \Yii::createObject(MailViewed::class, [$id, $hash])->execute();
-//        header('Content-Type: image/gif');
-//        return readfile(\Yii::getAlias('@webroot/images') . '/1x1.gif');
-//    }
-//
     public function actionSend()
     {
-        $model = Mailing::findOne((int)Yii::$app->request->post('id'));
+        $id = (int)Yii::$app->request->post('id');
+        $model = Mailing::findOne($id);
         if (!$model)
             throw new NotFoundHttpException("Рассылка {$id} не найдена");
 
         Yii::createObject(MailingSend::class, [$model])->execute();
     }
-//
-//
-//    public function actionIds($mode)
-//    {
-//        $query = Client::find()->select('user_id')->joinWith('bases');
-//
-//        if ($mode == 'active') {
-//            $query->where(['=', 'bases.is_available', Base::STATUS_AVAILABLE]);
-//        }
-//
-//        if ($mode == 'inactive') {
-//            $query->where(['=', 'bases.is_available', Base::STATUS_DISABLED]);
-//        }
-//
-//        return json_encode($query->column());
-//    }
-//
+
     public function actionIndex()
     {
         $model = new MailingFilter();
@@ -81,7 +60,10 @@ class MailingController extends Controller
                 'class' => \floor12\editmodal\EditModalAction::className(),
                 'model' => Mailing::className(),
                 'logic' => MailingUpdate::class,
-                'viewParams' => ['lists' => MailingList::find()->forSelect()],
+                'viewParams' => [
+                    'lists' => MailingList::find()->forSelect(),
+                    'module' => Yii::$app->getModule('mailing')
+                ],
                 'message' => 'Рассылка сохранена'
             ],
             'delete' => [

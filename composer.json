@@ -28,6 +28,7 @@
     "floor12/yii2-editmodal": "*",
     "kartik-v/yii2-widget-select2": "@dev",
     "voskobovich/yii2-linker-behavior": "@dev",
+    "marqu3s/yii2-summernote": "*",
     "rmrevin/yii2-fontawesome": "~2.15"
   },
   "require-dev": {

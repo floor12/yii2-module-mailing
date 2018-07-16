@@ -58,6 +58,11 @@ class Module extends \yii\base\Module
      */
     public $fromName;
 
+    /** Массив для перечисления моделей системы, которые нужно использовать для отправки почты
+     * @var array
+     */
+    public $linkedModels = [];
+
 
     public function makeStatGifUrl($id, $hash)
     {
