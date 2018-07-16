@@ -8,6 +8,11 @@
 
 namespace floor12\mailing\interfaces;
 
+/** Этот интерфейс необходимо имплементировать тем моделям ActiveRecord проекта,
+ *  которые имеют поле с email адресом, и должны учавствовать в рассылках
+ * Interface MailingRecipientInterface
+ * @package floor12\mailing\interfaces
+ */
 interface MailingRecipientInterface
 {
 
@@ -21,7 +26,14 @@ interface MailingRecipientInterface
      */
     public static function getMailingLabel(): string;
 
-    /** Возращаем строку содержащую email адресс для отправки рассылки
+    /** Возращаем строку содержащую email адресс для отправки рассылки.
+     *  Если в модели есть поле email, то реализация такая:
+     *
+     *      public function getMailingEmail(): string
+     *      {
+     *          return $this->email;
+     *      }
+     *
      * @return string
      */
     public function getMailingEmail(): string;
