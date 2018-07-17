@@ -50,7 +50,7 @@ class MailingUpdateTest extends TestCase
     public function tearDown()
     {
         $this->_after();
-        // $this->clearDb();
+        $this->clearDb();
         parent::tearDown();
 
     }

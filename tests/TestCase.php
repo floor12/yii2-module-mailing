@@ -57,6 +57,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'fromEmail' => 'test@example.com',
             'fromName' => 'Служба рассылки',
             'htmlTemplate' => 'mailing-test-html',
+            'layout' => 'test',
             'linkedModels' => [
                 User::class
             ]
@@ -68,8 +69,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $db = [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=mailing-test',
-            'username' => 'mailing-test',
-            'password' => '6s2MGxioqGRvNIkL',
+            'username' => 'travis',
+            'password' => '',
             'charset' => 'utf8',
         ];
 
@@ -82,8 +83,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         Yii::$app->set('mailer', $mailer);
 
-         // Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
-       //   Yii::createObject(m180717_120000_user::class, [])->safeUp();
+        Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
+        Yii::createObject(m180717_120000_user::class, [])->safeUp();
 
     }
 
@@ -92,8 +93,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function clearDb()
     {
-      //   Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
-      //   Yii::createObject(m180717_120000_user::class, [])->safeDown();
+        Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
+        Yii::createObject(m180717_120000_user::class, [])->safeDown();
     }
 
     /**
