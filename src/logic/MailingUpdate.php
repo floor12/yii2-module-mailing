@@ -25,6 +25,9 @@ class MailingUpdate
     {
         $this->_module = Yii::$app->getModule('mailing');
 
+        if (!is_array($data['Mailing']['emails_array']))
+            $data['Mailing']['emails_array'] = [];
+
         $this->_data = $data;
         $this->_identity = $identity;
         $this->_model = $model;
