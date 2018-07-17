@@ -2,8 +2,6 @@
 
 namespace floor12\mailing\models;
 
-use Yii;
-
 /**
  * This is the model class for table "mailing_list".
  *
@@ -29,6 +27,15 @@ class MailingList extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+     * @return \floor12\mailing\models\query\MailingListQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \floor12\mailing\models\query\MailingListQuery(get_called_class());
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -48,15 +55,17 @@ class MailingList extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Название списка',
             'status' => 'Скрыть',
+            'listItemsActiveCount' => 'Активных адресов',
+            'itemsUnsubscribedCount' => 'Отписавшихся',
         ];
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return integer
      */
-    public function getListItems()
+    public function getListItemsActiveCount()
     {
-        return $this->hasMany(MailingListItem::className(), ['list_id' => 'id']);
+        return $this->getListItemsActive()->count();
     }
 
     /**
@@ -68,12 +77,27 @@ class MailingList extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
-     * @return \floor12\mailing\models\query\MailingListQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getListItems()
     {
-        return new \floor12\mailing\models\query\MailingListQuery(get_called_class());
+        return $this->hasMany(MailingListItem::className(), ['list_id' => 'id']);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getItemsUnsubscribedCount()
+    {
+        return $this->getListItemsUnsubscribed()->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListItemsUnsubscribed()
+    {
+        return $this->getListItems()->unsubscribed();
     }
 
     /**

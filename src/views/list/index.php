@@ -65,6 +65,8 @@ echo GridView::widget([
                 return $html;
             }
         ],
+        'listItemsActiveCount',
+        'itemsUnsubscribedCount',
         [
             'contentOptions' => ['class' => 'table-td-control'],
             'class' => \floor12\editmodal\EditModalColumn::class,
