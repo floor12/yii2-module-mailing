@@ -64,7 +64,6 @@ $form = ActiveForm::begin([
             echo $form->field($model, "external_ids[{$key}]")->label($linkedModel::getMailingLabel())->widget(Select2::class, [
                 'data' => $linkedModel::getMailingList(),
                 'pluginOptions' => [
-                    'tags' => true,
                     'multiple' => true
                 ]
             ]);
