@@ -2,6 +2,8 @@
 
 namespace floor12\mailing;
 
+use yii\base\InvalidConfigException;
+
 /**
  * Mailing module definition class
  * @property  string $editRole
@@ -63,6 +65,27 @@ class Module extends \yii\base\Module
      */
     public $linkedModels = [];
 
+
+    /** Во время инициализации проверяем все ли необходимые параметры сконфигурированы
+     * @throws InvalidConfigException
+     */
+    public function init()
+    {
+        if (!$this->fromEmail)
+            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$fromEmail`.');
+
+        if (!$this->fromName)
+            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$fromName`.');
+
+        if (!$this->htmlTemplate)
+            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$htmlTemplate`.');
+
+        if (!$this->layout)
+            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$layout`.');
+
+        if (!$this->domain)
+            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$domain`.');
+    }
 
     public function makeStatGifUrl($id, $hash)
     {

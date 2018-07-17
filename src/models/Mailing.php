@@ -224,7 +224,6 @@ class Mailing extends \yii\db\ActiveRecord
                 $externalModelsEmails[] = $externalModel->getMailingEmail();
             }
 
-
         $allEmails = array_merge($externalEmails, $listEmails, $externalModelsEmails);
         return array_unique($allEmails);
     }

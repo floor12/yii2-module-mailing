@@ -11,13 +11,16 @@ namespace floor12\mailing\tests\models;
 use floor12\mailing\models\MailingEmail;
 use floor12\mailing\models\MailingList;
 use floor12\mailing\models\MailingListItem;
+use floor12\mailing\tests\fixtures\MailingExternalFixture;
 use floor12\mailing\tests\fixtures\MailingListFixture;
 use floor12\mailing\tests\fixtures\MailingListItemFixture;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\tests\fixtures\MailingFixture;
 use floor12\mailing\tests\fixtures\MailingEmailFixture;
+use floor12\mailing\tests\fixtures\UserFixture;
 use floor12\mailing\tests\TestCase;
 use \Yii;
+use floor12\mailing\tests\User;
 
 /**
  * @group mailing
@@ -42,6 +45,14 @@ class MailingTest extends TestCase
         $fixtureMailingListItem = new MailingListItemFixture();
         $fixtureMailingListItem->dataFile = __DIR__ . "/../_data/mailingListItem.php";
         $fixtureMailingListItem->load();
+
+        $fixtureMailingExternal = new MailingExternalFixture();
+        $fixtureMailingExternal->dataFile = __DIR__ . "/../_data/mailingExternal.php";
+        $fixtureMailingExternal->load();
+
+        $fixtureUser = new UserFixture();
+        $fixtureUser->dataFile = __DIR__ . "/../_data/user.php";
+        $fixtureUser->load();
     }
 
     public function _after()
@@ -50,6 +61,7 @@ class MailingTest extends TestCase
         MailingEmail::deleteAll();
         MailingList::deleteAll();
         MailingListItem::deleteAll();
+        User::deleteAll();
     }
 
 
@@ -65,7 +77,6 @@ class MailingTest extends TestCase
         $this->_after();
         $this->clearDb();
         parent::tearDown();
-
     }
 
     /** Проверяем как из всех источников почтовые адреса собираются в один массив
@@ -74,8 +85,8 @@ class MailingTest extends TestCase
     public function testCheckRecipients1()
     {
         $model = Mailing::findOne(3);
-        $this->assertEquals(sizeof($model->recipients), 3);
-        $this->assertEquals($model->recipient_total, 3);
+        $this->assertEquals(sizeof($model->recipients), 4);
+        $this->assertEquals($model->recipient_total, 4);
     }
 
     /**

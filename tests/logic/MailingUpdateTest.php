@@ -8,20 +8,28 @@
 
 namespace floor12\mailing\tests\logic;
 
-use \floor12\mailing\tests\MockedUser;
 use floor12\mailing\logic\MailingUpdate;
 use floor12\mailing\models\Mailing;
-use floor12\mailing\tests\fixtures\MailingFixture;
-use floor12\mailing\tests\fixtures\MailingEmailFixture;
-use floor12\mailing\tests\TestCase;
-use \Yii;
 use floor12\mailing\models\MailingEmail;
+use floor12\mailing\tests\fixtures\MailingEmailFixture;
+use floor12\mailing\tests\fixtures\MailingFixture;
+use floor12\mailing\tests\fixtures\UserFixture;
+use floor12\mailing\tests\TestCase;
+use floor12\mailing\tests\User;
+use Yii;
 
 /**
  * @group mailing-update
  */
 class MailingUpdateTest extends TestCase
 {
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->setApp();
+        $this->_before();
+    }
 
     public function _before()
     {
@@ -32,29 +40,26 @@ class MailingUpdateTest extends TestCase
         $fixtureMailingEmail = new MailingEmailFixture();
         $fixtureMailingEmail->dataFile = __DIR__ . "/../_data/mailingEmail.php";
         $fixtureMailingEmail->load();
+
+
+        $fixtureUser = new UserFixture();
+        $fixtureUser->dataFile = __DIR__ . "/../_data/user.php";
+        $fixtureUser->load();
+    }
+
+    public function tearDown()
+    {
+        $this->_after();
+        // $this->clearDb();
+        parent::tearDown();
+
     }
 
     public function _after()
     {
         Mailing::deleteAll();
         MailingEmail::deleteAll();
-
-    }
-
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->setApp();
-        $this->_before();
-    }
-
-    public function tearDown()
-    {
-        $this->_after();
-        $this->clearDb();
-        parent::tearDown();
-
+        User::deleteAll();
     }
 
     /** Проверяем создание, выставления временных меток и добавление адресов
@@ -63,7 +68,7 @@ class MailingUpdateTest extends TestCase
     public function testSuccessCreate()
     {
         $model = new Mailing();
-        $user = new MockedUser();
+        $user = new User();
         $data = ['Mailing' => [
             'content' => 'content',
             'title' => 'title',
@@ -88,25 +93,34 @@ class MailingUpdateTest extends TestCase
     public function testSuccessUpdate()
     {
         $model = Mailing::findOne(3);
-        $user = new MockedUser();
+        $user = new User();
         $data = ['Mailing' => [
             'content' => 'content',
             'title' => 'title',
             'emails_array' => ['test44@test.ru', 'test55@test.ru']
         ]];
 
+        $this->assertEquals(3, sizeof($model->recipients));
+    }
 
-        $this->assertEquals(3, sizeof($model->emails));
+    /** Проверяем создание, выставления временных меток и добавление адресов
+     * @throws \yii\base\InvalidConfigException
+     * @group mailing-update-ext
+     */
+    public function testSuccessUpdateWithExternalModels()
+    {
+        $model = Mailing::findOne(3);
+        $user = new User();
+        $data = ['Mailing' => [
+            'content' => 'content',
+            'title' => 'title',
+            'emails_array' => [],
+            'external_ids' => [['1']]
+        ]];
 
-//        Yii::createObject(MailingUpdate::class, [$model, $data, $user])->execute();
-//
-//        $model->refresh();
-//
-//        $this->assertEquals(2, sizeof($model->emails));
-//        $this->assertEquals('content', $model->content);
-//        $this->assertEquals('title', $model->title);
-//        $this->assertEquals(10, $model->create_user_id);
-//        $this->assertEquals($user->getId(), $model->update_user_id);
-//        $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
+        Yii::createObject(MailingUpdate::class, [$model, $data, $user])->execute();
+        $model->refresh();
+        $this->assertEquals('valera@test.ru', $model->recipients[0]);
+        $this->assertEquals(1, sizeof($model->recipients));
     }
 }

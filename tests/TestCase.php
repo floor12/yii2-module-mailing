@@ -56,7 +56,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'class' => 'floor12\mailing\Module',
             'fromEmail' => 'test@example.com',
             'fromName' => 'Служба рассылки',
-            'htmlTemplate' => 'mailing-test-html'
+            'htmlTemplate' => 'mailing-test-html',
+            'linkedModels' => [
+                User::class
+            ]
+
         ];
 
         \Yii::$app->setModule('mailing', $mailingModule);
@@ -78,7 +82,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         Yii::$app->set('mailer', $mailer);
 
-        //  Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
+         // Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
+       //   Yii::createObject(m180717_120000_user::class, [])->safeUp();
 
     }
 
@@ -87,7 +92,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function clearDb()
     {
-        //  Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
+      //   Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
+      //   Yii::createObject(m180717_120000_user::class, [])->safeDown();
     }
 
     /**

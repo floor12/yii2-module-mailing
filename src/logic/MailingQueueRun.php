@@ -28,15 +28,6 @@ class MailingQueueRun
     {
         $this->_module = Yii::$app->getModule('mailing');
 
-        if (!$this->_module->fromEmail)
-            throw new InvalidConfigException('В конфигурации модуля не указан `fromEmail`.');
-
-        if (!$this->_module->fromName)
-            throw new InvalidConfigException('В конфигурации модуля не указан `fromName`.');
-
-        if (!$this->_module->htmlTemplate)
-            throw new InvalidConfigException('В конфигурации модуля не указан `htmlTemplate`.');
-
         if (Mailing::find()->where(['status' => Mailing::STATUS_SENDING])->one())
             throw new ErrorException('Очередь отправки занята.');
 

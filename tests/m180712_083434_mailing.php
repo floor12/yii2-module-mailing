@@ -123,6 +123,17 @@ class m180712_083434_mailing extends Migration
         $this->addForeignKey("fk-mailing_stat-mailing", "{{%mailing_stat}}", "mailing_id", "{{%mailing}}", "id", "CASCADE", "CASCADE");
         $this->addForeignKey("fk-mailing_stat-link", "{{%mailing_stat}}", "link_id", "{{%mailing_link}}", "id", "CASCADE", "CASCADE");
 
+        // MAILING EXTERNAL CLASSES OBJECT LINK
+        $this->createTable("{{%mailing_external}}", [
+            'mailing_id' => $this->integer()->notNull()->comment('Связь с рассылкой'),
+            'class' => $this->string()->notNull()->comment('Полное имя класса связанного объекта'),
+            'object_id' => $this->integer()->notNull()->comment('ID связанного объекта')
+        ], $tableOptions);
+
+        $this->createIndex('idx-mailing_external', "{{%mailing_external}}", ['mailing_id', 'class', 'object_id']);
+        $this->createIndex('idx-mailing_external-mailing_id', "{{%mailing_external}}", 'mailing_id');
+        $this->addForeignKey("fk-mailing_external-mailing", "{{%mailing_external}}", "mailing_id", "{{%mailing}}", "id", "CASCADE", "CASCADE");
+
     }
 
     /**
@@ -130,7 +141,7 @@ class m180712_083434_mailing extends Migration
      */
     public function safeDown()
     {
-        {
+            $this->dropTable("{{%mailing_external}}");
             $this->dropTable("{{%mailing_stat}}");
             $this->dropTable("{{%mailing_link}}");
             $this->dropTable("{{%mailing_list_item}}");
@@ -139,7 +150,5 @@ class m180712_083434_mailing extends Migration
             $this->dropTable("{{%mailing_user}}");
             $this->dropTable("{{%mailing_viewed}}");
             $this->dropTable("{{%mailing}}");
-        }
-
     }
 }

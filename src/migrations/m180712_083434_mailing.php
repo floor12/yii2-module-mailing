@@ -139,17 +139,14 @@ class m180712_083434_mailing extends Migration
      */
     public function safeDown()
     {
-        {
-            $this->dropTable("{{%mailing_external}}");
-            $this->dropTable("{{%mailing_stat}}");
-            $this->dropTable("{{%mailing_link}}");
-            $this->dropTable("{{%mailing_list_item}}");
-            $this->dropTable("{{%mailing_list}}");
-            $this->dropTable("{{%mailing_email}}");
-            $this->dropTable("{{%mailing_user}}");
-            $this->dropTable("{{%mailing_viewed}}");
-            $this->dropTable("{{%mailing}}");
-        }
-
+        $this->dropTable("{{%mailing_external}}");
+        $this->dropTable("{{%mailing_stat}}");
+        $this->dropTable("{{%mailing_link}}");
+        $this->dropTable("{{%mailing_list_item}}");
+        $this->dropTable("{{%mailing_list}}");
+        $this->dropTable("{{%mailing_email}}");
+        $this->dropTable("{{%mailing_user}}");
+        $this->dropTable("{{%mailing_viewed}}");
+        $this->dropTable("{{%mailing}}");
     }
 }
