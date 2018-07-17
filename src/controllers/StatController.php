@@ -20,7 +20,7 @@ class StatController extends Controller
         if (Yii::$app->request->method == 'HEAD')
             return false;
         $url = Yii::createObject(MailingClick::class, [$hash])->execute();
-       // $this->redirect($url);
+        $this->redirect($url);
     }
 
 
