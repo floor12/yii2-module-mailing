@@ -12,6 +12,12 @@ use yii\base\InvalidConfigException;
  */
 class Module extends \yii\base\Module
 {
+
+    /**
+     * @inheritdoc
+     */
+    public $defaultRoute = 'mailing/index';
+
     /**
      * @inheritdoc
      */
