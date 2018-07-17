@@ -37,6 +37,12 @@ $ composer require floor12/yii2-module-mailing
 $ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-mailing/src/migrations/
 ```
 
+Если до этого не был установлен модуль floor12\files\Module[https://github.com/floor12/yii2-module-files], который присутствует тут в зависимостях,
+то создаем папку `@app/storage` c правами веб-сервера на запись, так же выполняем миграцию для модуля файлов:
+```bash
+$ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-files/src/migrations/
+```
+
 Добавляем данный модуль в конфиг приложения (а так же модуль `floor12/yii2-module-files`, 
 если он не был установлен в приложении прежде)
 ```php  
