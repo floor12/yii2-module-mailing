@@ -57,8 +57,7 @@ $form = ActiveForm::begin([
 
     </div>
 
-<?
-ActiveForm::end();
+<?php ActiveForm::end();
 
 Pjax::begin(['id' => 'items']);
 

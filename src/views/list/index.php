@@ -45,8 +45,7 @@ $form = ActiveForm::begin([
         <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => 'Фильтр...']) ?>
     </div>
 
-<?
-ActiveForm::end();
+<?php ActiveForm::end();
 
 Pjax::begin(['id' => 'items']);
 
