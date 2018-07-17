@@ -72,7 +72,7 @@ class MailingUpdate
         if ($this->_module->linkedModels)
             foreach ($this->_module->linkedModels as $linkedModelKey => $linkedModelClass) {
                 MailingExternal::deleteAll(['class' => $linkedModelClass, 'mailing_id' => $this->_model->id]);
-                if (isset($this->_data['Mailing']['external_ids'][$linkedModelKey]))
+                if (!empty($this->_data['Mailing']['external_ids'][$linkedModelKey]))
                     foreach ($this->_data['Mailing']['external_ids'][$linkedModelKey] as $external_id) {
                         $externalModel = new MailingExternal();
                         $externalModel->mailing_id = $this->_model->id;
