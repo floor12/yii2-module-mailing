@@ -9,8 +9,10 @@
 namespace floor12\mailing\controllers;
 
 use floor12\mailing\logic\MailingClick;
+use floor12\mailing\logic\MailingUnsubscribe;
 use floor12\mailing\logic\MailingView;
 use Yii;
+use yii\helpers\Html;
 use yii\web\Controller;
 
 class StatController extends Controller
@@ -29,5 +31,11 @@ class StatController extends Controller
         Yii::createObject(MailingView::class, [$id, $hash])->execute();
         header('Content-Type: image/gif');
         readfile(\Yii::getAlias('@vendor/floor12/yii2-module-mailing/src/assets/1x1.gif'));
+    }
+
+    public function actionUnsubscribe($email, $list_id, $hash)
+    {
+        Yii::createObject(MailingUnsubscribe::class, [$email, $list_id, $hash])->execute();
+        return $this->renderContent(Html::tag('h1', 'Вы успешно отписаны.'));
     }
 }

@@ -51,6 +51,11 @@ class Module extends \yii\base\Module
      */
     public $redirectRoute = "/mailing/stat/link?hash={hash}";
 
+    /**
+     * @var string
+     */
+    public $unsubscribeRoute = "/mailing/stat/unsubscribe";
+
     /** Имя шаблона для отправки рассылок
      * @var string
      */

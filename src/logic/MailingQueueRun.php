@@ -11,7 +11,6 @@ namespace floor12\mailing\logic;
 use floor12\mailing\models\Mailing;
 use Yii;
 use yii\base\ErrorException;
-use yii\base\InvalidConfigException;
 
 /**
  * Class MailingQueueRun
@@ -56,7 +55,8 @@ class MailingQueueRun
                     ['html' => $this->_module->htmlTemplate],
                     [
                         'content' => $this->_mailing->content,
-                        'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash)
+                        'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash),
+                        'unsubscribeUrl' => MailingUnsubscribe::makeUrl($recipientEmail, (int)$this->_mailing->list_id)
                     ]
                 )
                 ->setFrom([$this->_module->fromEmail => $this->_module->fromName])
