@@ -14,6 +14,7 @@
 
 use floor12\files\components\FileInputWidget;
 use floor12\files\logic\ClassnameEncoder;
+use floor12\mailing\models\MailingType;
 use kartik\select2\Select2;
 use marqu3s\summernote\Summernote;
 use yii\helpers\Html;
@@ -23,6 +24,8 @@ $form = ActiveForm::begin([
     'options' => ['class' => 'modaledit-form'],
     'enableClientValidation' => true
 ]);
+
+$this->registerJs("mailingType()");
 
 ?>
 
@@ -39,36 +42,41 @@ $form = ActiveForm::begin([
 
     <?= $form->field($model, 'files')->widget(FileInputWidget::class, []); ?>
 
+
     <div class="row">
         <div class="col-md-5">
-            <?= $form->field($model, 'emails_array')->widget(Select2::class, [
-                'data' => $model->emails_array,
-                'pluginOptions' => [
-                    'tags' => true,
-                    'multiple' => true
-                ]
-            ]) ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'list_id')->dropDownList($lists, ['prompt' => 'без списка']) ?>
+            <?= $form->field($model, 'type')->dropDownList(MailingType::$list) ?>
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'status')->dropDownList($model->statuses) ?>
         </div>
     </div>
 
-    <?php
-    if ($module->linkedModels)
-        foreach ($module->linkedModels as $key => $linkedModel) {
-            $fieldName = Yii::createObject(ClassnameEncoder::class, [$linkedModel]);
-            echo $form->field($model, "external_ids[{$key}]")->label($linkedModel::getMailingLabel())->widget(Select2::class, [
-                'data' => $linkedModel::getMailingList(),
-                'pluginOptions' => [
-                    'multiple' => true
-                ]
-            ]);
-        }
-    ?>
+    <?= $form->field($model, 'emails_array')->widget(Select2::class, [
+        'data' => $model->emails_array,
+        'pluginOptions' => [
+            'tags' => true,
+            'multiple' => true
+        ]
+    ]) ?>
+
+    <?= $form->field($model, 'list_id')->dropDownList($lists, ['prompt' => 'без списка']) ?>
+
+
+    <div class="mailing-linked-models">
+        <?php
+        if ($module->linkedModels)
+            foreach ($module->linkedModels as $key => $linkedModel) {
+                $fieldName = Yii::createObject(ClassnameEncoder::class, [$linkedModel]);
+                echo $form->field($model, "external_ids[{$key}]")->label($linkedModel::getMailingLabel())->widget(Select2::class, [
+                    'data' => $linkedModel::getMailingList(),
+                    'pluginOptions' => [
+                        'multiple' => true
+                    ]
+                ]);
+            }
+        ?>
+    </div>
 
 </div>
 

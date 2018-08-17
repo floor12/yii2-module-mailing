@@ -38,5 +38,17 @@ interface MailingRecipientInterface
      */
     public function getMailingEmail(): string;
 
+    /** Возращаем строку содержащую полное имя получателя для рассылки.
+     *  Если в модели есть поле name и surname, то реализация может выглядить так:
+     *
+     *      public function getMailingFullname(): string
+     *      {
+     *          return "{$this->name} {$this->surname}";
+     *      }
+     *
+     * @return string
+     */
+    public function getMailingFullname(): string;
+
 
 }

@@ -21,7 +21,8 @@ use Yii;
  * @property int $create_user_id Создал
  * @property int $update_user_id Обновил
  * @property array $recipients Массив всех адресов для отправки
- * @property integer $clicks
+ * @property integer $clicks Кол-во кликов по ссылкам из письма
+ * @property integer $type Тип рассылки
  *
  * @property MailingEmail[] $emails
  * @property MailingLink[] $links
@@ -81,8 +82,8 @@ class Mailing extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'title', 'content', 'created', 'updated'], 'required'],
-            [['status', 'created', 'updated', 'send', 'list_id', 'create_user_id', 'update_user_id'], 'integer'],
+            [['type', 'status', 'title', 'content', 'created', 'updated'], 'required'],
+            [['status', 'created', 'updated', 'send', 'list_id', 'create_user_id', 'update_user_id', 'type'], 'integer'],
             [['content'], 'string'],
             [['title'], 'string', 'max' => 255],
             ['files', 'file', 'maxFiles' => 20],
@@ -118,7 +119,8 @@ class Mailing extends \yii\db\ActiveRecord
             'emails_array' => 'Получатели (внешние)',
             'files' => 'Приложения',
             'clicks' => 'Кликов',
-            'views' => 'Просмотров'
+            'views' => 'Просмотров',
+            'type' => 'Тип рассылки',
         ];
     }
 
@@ -214,18 +216,31 @@ class Mailing extends \yii\db\ActiveRecord
     public
     function getRecipients()
     {
-        $externalEmails = $this->getEmails()->select('email')->column();
-        $listEmails = $this->list ? $this->list->getListItemsActive()->select('email')->column() : [];
-        $externalModelsEmails = [];
+        switch ($this->type) {
+            case MailingType::FREE:
+                return $this->getEmails()->select('email')->asArray();
 
-        if ($this->externals)
-            foreach ($this->externals as $external) {
-                $externalModel = $external->class::findOne($external->object_id);
-                $externalModelsEmails[] = $externalModel->getMailingEmail();
-            }
+            case MailingType::EXT_CLASS:
+                $externalModelsEmails = [];
+                if ($this->externals)
+                    foreach ($this->externals as $key => $external) {
+                        $externalModel = $external->class::findOne($external->object_id);
+                        if (!$externalModel->getMailingEmail())
+                            continue;
+                        
+                        $externalModelsEmails[$key]['email'] = $externalModel->getMailingEmail();
+                        $externalModelsEmails[$key]['fullname'] = $externalModel->getMailingFullname();
+                    }
+                return $externalModelsEmails;
 
-        $allEmails = array_merge($externalEmails, $listEmails, $externalModelsEmails);
-        return array_unique($allEmails);
+            case MailingType::LIST:
+                return $this->list ? $this
+                    ->list
+                    ->getListItemsActive()
+                    ->select(['email', 'sex', 'fullname'])
+                    ->asArray() : [];
+
+        }
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace floor12\mailing\models;
 
-use Yii;
-
 /**
  * This is the model class for table "mailing_list_item".
  *
@@ -11,6 +9,8 @@ use Yii;
  * @property int $list_id Связь со списком
  * @property string $email Email
  * @property int $status Статус
+ * @property int $fullname Полное имя
+ * @property int $sex Пол получателя
  * @property string $status_string Статус
  *
  * @property MailingList $list
@@ -47,8 +47,9 @@ class MailingListItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['fullname', 'string'],
             [['list_id', 'email'], 'required'],
-            [['list_id', 'status'], 'integer'],
+            [['list_id', 'status', 'sex'], 'integer'],
             [['email'], 'string', 'max' => 255],
             ['email', 'email'],
             ['email', 'unique', 'targetAttribute' => ['email', 'list_id'], 'message' => 'Этот адрес уже есть в этом списке'],
@@ -68,7 +69,8 @@ class MailingListItem extends \yii\db\ActiveRecord
             'email' => 'Email',
             'status' => 'Статус',
             'status_string' => 'Статус',
-            'status_string' => 'Статус',
+            'sex' => 'Пол получателя',
+            'fullname' => 'Имя получателя',
         ];
     }
 

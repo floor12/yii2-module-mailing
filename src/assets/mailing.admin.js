@@ -18,7 +18,6 @@ function submitForm(form) {
         container: container,
         data: form.serialize()
     })
-
 }
 
 function sendMailing(id) {
@@ -37,3 +36,25 @@ function sendMailing(id) {
         }
     })
 }
+
+
+function mailingType() {
+    type = $('#mailing-type').val();
+
+    $('.field-mailing-emails_array').hide();
+    $('.field-mailing-list_id').hide();
+    $('.mailing-linked-models').hide();
+
+    if (type == '0')
+        $('.field-mailing-emails_array').show();
+    if (type == '1') {
+        $('.mailing-linked-models').show();
+    }
+    if (type == '2') {
+        $('.field-mailing-list_id').show();
+    }
+}
+
+$(document).on('change', '#mailing-type', function () {
+    mailingType();
+})

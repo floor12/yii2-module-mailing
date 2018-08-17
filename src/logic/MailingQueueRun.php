@@ -9,6 +9,7 @@
 namespace floor12\mailing\logic;
 
 use floor12\mailing\models\Mailing;
+use floor12\mailing\models\MailingListItemSex;
 use Yii;
 use yii\base\ErrorException;
 
@@ -46,21 +47,21 @@ class MailingQueueRun
 
         $this->replaceLinks();
 
-        foreach ($this->_mailing->recipients as $recipientEmail) {
-            $hash = md5($recipientEmail . time());
+        foreach ($this->_mailing->recipients as $recipientRow) {
+            $hash = md5($recipientRow['email'] . time());
 
             $mail = \Yii::$app
                 ->mailer
                 ->compose(
                     ['html' => $this->_module->htmlTemplate],
                     [
-                        'content' => $this->_mailing->content,
+                        'content' => $this->proccessVars($this->_mailing->content, $recipientRow),
                         'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash),
-                        'unsubscribeUrl' => MailingUnsubscribe::makeUrl($recipientEmail, (int)$this->_mailing->list_id)
+                        'unsubscribeUrl' => MailingUnsubscribe::makeUrl($recipientRow['email'], (int)$this->_mailing->list_id)
                     ]
                 )
                 ->setFrom([$this->_module->fromEmail => $this->_module->fromName])
-                ->setTo($recipientEmail)
+                ->setTo($recipientRow['email'])
                 ->setSubject($this->_mailing->title);
 
             if (Yii::$app->id != 'testapp' && $this->_mailing->files)
@@ -69,9 +70,9 @@ class MailingQueueRun
 
 
             if ($mail->send())
-                $this->_send[] = $recipientEmail;
+                $this->_send[] = $recipientRow['email'];
             else
-                $this->_errors[] = $recipientEmail;
+                $this->_errors[] = $recipientRow['email'];
         }
 
         $this->currentMailingStatusChange(Mailing::STATUS_SEND);
@@ -80,6 +81,33 @@ class MailingQueueRun
         if ($this->_errors)
             $ret .= "\nerrors: " . sizeof($this->_errors);
         return $ret;
+    }
+
+    /** Заменяем переменные в теле письма, если они есть.
+     * @param string $content
+     * @param array $recipient
+     * @return string
+     */
+    private function proccessVars(string $content, array $recipientRow): string
+    {
+        if (isset($recipientRow['fullname']))
+            $content = str_replace("[%username]", $recipientRow['fullname'], $content);
+        else
+            $content = str_replace("[%username]", 'пользователь', $content);
+
+        if (isset($recipientRow['sex']) && $recipientRow['sex']) {
+            if ($recipientRow['sex'] == MailingListItemSex::MAN) {
+                $content = str_replace("[%Dear]", 'Уважаемый', $content);
+                $content = str_replace("[%dear]", 'уважаемый', $content);
+            } else {
+                $content = str_replace("[%Dear]", 'Уважаемая', $content);
+                $content = str_replace("[%dear]", 'уважаемая', $content);
+            }
+        } else {
+            $content = str_replace("[%Dear]", 'Уважаемый(ая)', $content);
+            $content = str_replace("[%dear]", 'уважаемый(ая)', $content);
+        }
+        return $content;
     }
 
     /**

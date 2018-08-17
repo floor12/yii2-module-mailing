@@ -11,8 +11,9 @@
  *
  */
 
-use yii\widgets\ActiveForm;
+use floor12\mailing\models\MailingListItemSex;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 $form = ActiveForm::begin([
     'options' => ['class' => 'modaledit-form'],
@@ -29,10 +30,16 @@ $form = ActiveForm::begin([
     <?= $form->errorSummary($model); ?>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <?= $form->field($model, 'email') ?>
         </div>
         <div class="col-md-4">
+            <?= $form->field($model, 'fullname') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'sex')->dropDownList(MailingListItemSex::listData()) ?>
+        </div>
+        <div class="col-md-3">
             <?= $form->field($model, 'list_id')->dropDownList($lists) ?>
         </div>
         <div class="col-md-3">

@@ -13,6 +13,7 @@
 use floor12\editmodal\EditModalHelper;
 use floor12\mailing\assets\MailingAsset;
 use floor12\mailing\models\Mailing;
+use floor12\mailing\models\MailingType;
 use floor12\mailing\widgets\TabWidget;
 use rmrevin\yii\fontawesome\FontAwesome;
 use yii\grid\GridView;
@@ -71,6 +72,7 @@ echo GridView::widget([
             'attribute' => 'title',
             'content' => function (Mailing $model): string {
                 $html = $model->title;
+                $html .= Html::tag('div', MailingType::getLabel($model->type), ['class' => 'small']);
                 return $html;
             }
         ],
