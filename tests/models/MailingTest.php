@@ -85,8 +85,8 @@ class MailingTest extends TestCase
     public function testCheckRecipients1()
     {
         $model = Mailing::findOne(3);
-        $this->assertEquals(sizeof($model->recipients), 4);
-        $this->assertEquals($model->recipient_total, 4);
+        $this->assertEquals(sizeof($model->recipients), 3);
+        $this->assertEquals($model->recipient_total, 3);
     }
 
     /**
@@ -95,8 +95,8 @@ class MailingTest extends TestCase
     public function testCheckRecipients2()
     {
         $model = Mailing::findOne(4);
-        $this->assertEquals(sizeof($model->recipients), 3);
-        $this->assertEquals($model->recipient_total, 3);
+        $this->assertEquals(sizeof($model->recipients), 2);
+        $this->assertEquals($model->recipient_total, 2);
     }
 
     /**

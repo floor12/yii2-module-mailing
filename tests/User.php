@@ -70,6 +70,22 @@ class User extends ActiveRecord implements MailingRecipientInterface, IdentityIn
         return $this->user_email;
     }
 
+
+    /** Возращаем строку содержащую полное имя получателя для рассылки.
+     *  Если в модели есть поле name и surname, то реализация может выглядить так:
+     *
+     *      public function getMailingFullname(): string
+     *      {
+     *          return "{$this->name} {$this->surname}";
+     *      }
+     *
+     * @return string
+     */
+    public function getMailingFullname(): string
+    {
+        return $this->user_name;
+    }
+
     /**
      * Returns an ID that can uniquely identify a user identity.
      * @return string|int an ID that uniquely identifies a user identity.

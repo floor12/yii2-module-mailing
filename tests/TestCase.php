@@ -85,6 +85,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         Yii::createObject(m180712_083434_mailing::class, [])->safeUp();
         Yii::createObject(m180717_120000_user::class, [])->safeUp();
+        Yii::createObject(m180817_144300_add_fullname::class, [])->safeUp();
 
     }
 
@@ -93,6 +94,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function clearDb()
     {
+        Yii::createObject(m180817_144300_add_fullname::class, [])->safeDown();
         Yii::createObject(m180712_083434_mailing::class, [])->safeDown();
         Yii::createObject(m180717_120000_user::class, [])->safeDown();
     }
