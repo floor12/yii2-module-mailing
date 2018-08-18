@@ -11,6 +11,7 @@ namespace floor12\mailing\tests\logic;
 use floor12\mailing\logic\MailingUpdate;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
+use floor12\mailing\models\MailingType;
 use floor12\mailing\tests\fixtures\MailingEmailFixture;
 use floor12\mailing\tests\fixtures\MailingFixture;
 use floor12\mailing\tests\fixtures\UserFixture;
@@ -72,6 +73,7 @@ class MailingUpdateTest extends TestCase
         $data = ['Mailing' => [
             'content' => 'content',
             'title' => 'title',
+            'type' => MailingType::FREE,
             'emails_array' => ['test44@test.ru', 'test55@test.ru']
         ]];
 
@@ -115,12 +117,13 @@ class MailingUpdateTest extends TestCase
             'content' => 'content',
             'title' => 'title',
             'emails_array' => [],
+            'type' => MailingType::EXT_CLASS,
             'external_ids' => [['1']]
         ]];
 
         Yii::createObject(MailingUpdate::class, [$model, $data, $user])->execute();
         $model->refresh();
-        $this->assertEquals('valera@test.ru', $model->recipients[0]);
+        $this->assertEquals('valera@test.ru', $model->recipients[0]['email']);
         $this->assertEquals(1, sizeof($model->recipients));
     }
 }
