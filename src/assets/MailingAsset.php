@@ -24,6 +24,7 @@ class MailingAsset extends AssetBundle
 
     public $depends = [
         'yii\bootstrap\BootstrapAsset',
-        'yii\web\JqueryAsset'
+        'yii\web\JqueryAsset',
+        'floor12\editmodal\EditModalAsset'
     ];
 }
