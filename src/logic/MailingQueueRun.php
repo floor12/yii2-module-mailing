@@ -122,12 +122,12 @@ class MailingQueueRun
 
     private function replaceLinks()
     {
-        preg_match_all('/<a href=[\"|\']([^"^\']+)[\"|\']/siU', $this->_mailing->content, $matches);
+        preg_match_all('/<a href=[\"]([^"^\']+)[\"]/siU', $this->_mailing->content, $matches);
         $urlArray = array_unique($matches[1]);
         if ($urlArray)
             foreach ($urlArray as $url) {
                 $redirectUrl = \Yii::createObject(MailingLinkCreate::class, [$this->_mailing->id, $url])->getRedirectLink();
-                $this->_mailing->content = str_replace($url, $redirectUrl, $this->_mailing->content);
+                $this->_mailing->content = str_replace("\"{$url}\"", "\"{$redirectUrl}\"", $this->_mailing->content);
             }
 
     }
