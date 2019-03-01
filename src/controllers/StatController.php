@@ -9,7 +9,6 @@
 namespace floor12\mailing\controllers;
 
 use floor12\mailing\logic\MailingClick;
-use floor12\mailing\logic\MailingUnsubscribe;
 use floor12\mailing\logic\MailingView;
 use Yii;
 use yii\helpers\Html;
@@ -17,6 +16,13 @@ use yii\web\Controller;
 
 class StatController extends Controller
 {
+
+    public function init()
+    {
+        $this->layout = Yii::$app->getModule('mailing')->layoutFrontend;
+        parent::init();
+    }
+
     public function actionLink($hash)
     {
         if (Yii::$app->request->method == 'HEAD')
@@ -33,9 +39,9 @@ class StatController extends Controller
         readfile(\Yii::getAlias('@vendor/floor12/yii2-module-mailing/src/assets/1x1.gif'));
     }
 
-    public function actionUnsubscribe($email, $list_id, $hash)
+    public function actionUnsubscribe()
     {
-        Yii::createObject(MailingUnsubscribe::class, [$email, $list_id, $hash])->execute();
+        // Yii::createObject(MailingUnsubscribe::class, [$email, $list_id, $hash])->execute();
         return $this->renderContent(Html::tag('h1', 'Вы успешно отписаны.', ['class' => 'f12-mailing-unsubscribe-success']));
     }
 }

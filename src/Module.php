@@ -22,11 +22,16 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
     public $controllerNamespace = 'floor12\mailing\controllers';
-
+src
     /** Путь к макету, который используется в контроллерах управления рассылками
      * @var string
      */
-    public $layout;
+    public $layoutBackend = '@app/views/layouts/main';
+
+    /** Путь к макету, который используется в публичных контроллерах
+     * @var string
+     */
+    public $layoutFrontend = '@app/views/layouts/main';
 
     /**
      * Те роли в системе, которым разрешено редактирование новостей
@@ -90,9 +95,6 @@ class Module extends \yii\base\Module
 
         if (!$this->htmlTemplate)
             throw new InvalidConfigException('В конфигурации модуля не указан парметр `$htmlTemplate`.');
-
-        if (!$this->layout)
-            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$layout`.');
 
         if (!$this->domain)
             throw new InvalidConfigException('В конфигурации модуля не указан парметр `$domain`.');

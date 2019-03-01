@@ -8,18 +8,23 @@
 
 namespace floor12\mailing\controllers;
 
-use floor12\mailing\models\MailingFilter;
-use yii\web\Controller;
-use yii\filters\AccessControl;
-use floor12\editmodal\EditModalAction;
 use floor12\editmodal\DeleteAction;
-use floor12\mailing\models\MailingList;
+use floor12\editmodal\EditModalAction;
 use floor12\mailing\models\filters\MailingListFilter;
+use floor12\mailing\models\MailingList;
+use Yii;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use \Yii;
+use yii\web\Controller;
 
 class ListController extends Controller
 {
+
+    public function init()
+    {
+        $this->layout = Yii::$app->getModule('mailing')->layoutBackend;
+        parent::init();
+    }
 
     public function behaviors()
     {
@@ -41,6 +46,7 @@ class ListController extends Controller
             ],
         ];
     }
+
     public function actionIndex()
     {
         $model = new MailingListFilter();

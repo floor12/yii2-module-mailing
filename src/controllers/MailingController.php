@@ -21,6 +21,12 @@ use yii\web\NotFoundHttpException;
 class MailingController extends Controller
 {
 
+    public function init()
+    {
+        $this->layout = Yii::$app->getModule('mailing')->layoutBackend;
+        parent::init();
+    }
+
     public function behaviors()
     {
         return [
