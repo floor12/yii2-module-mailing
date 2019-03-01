@@ -40,9 +40,12 @@ return [
         'title' => 1,
         'content' => "
             This is content with links.
-            <a href='https://www.yiiframework.com/doc/guide/2.0/en/tutorial-core-validators#in'>Link #1</a>
+            <a href=\"https://www.yiiframework.com/doc/guide/2.0/en/tutorial-core-validators#in\">Link #1</a>
             <p>
-                This is <a href='http://test.me' class='btn'>link #2</a>
+                This is <a href=\"http://test.me\" class='btn'>link #2</a>
+            </p>
+            <p>
+                This is <a href='http://test.me' class='btn'>ignored</a>
             </p>
         ",
         'created' => 1,

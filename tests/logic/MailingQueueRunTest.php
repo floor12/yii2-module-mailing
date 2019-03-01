@@ -89,7 +89,7 @@ class MailingQueueRunTest extends TestCase
         $this->assertEquals('Список получателей рассылки id:1 пуст.', $logic->execute());
     }
 
-    public function testMailingQueueuRun()
+    public function testMailingQueueRun()
     {
         $model = Mailing::findOne(4);
         $model->status = Mailing::STATUS_WAITING;
