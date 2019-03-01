@@ -36,6 +36,6 @@ class StatController extends Controller
     public function actionUnsubscribe($email, $list_id, $hash)
     {
         Yii::createObject(MailingUnsubscribe::class, [$email, $list_id, $hash])->execute();
-        return $this->renderContent(Html::tag('h1', 'Вы успешно отписаны.'));
+        return $this->renderContent(Html::tag('h1', 'Вы успешно отписаны.', ['class' => 'f12-mailing-unsubscribe-success']));
     }
 }
