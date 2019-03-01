@@ -8,18 +8,17 @@
 
 namespace floor12\mailing\controllers;
 
-use floor12\mailing\models\filters\MailingEmailFilter;
-use floor12\mailing\models\MailingFilter;
-use yii\web\Controller;
-use yii\filters\AccessControl;
-use floor12\editmodal\EditModalAction;
 use floor12\editmodal\DeleteAction;
-use floor12\mailing\models\MailingListItem;
+use floor12\editmodal\EditModalAction;
+use floor12\mailing\models\filters\MailingEmailFilter;
 use floor12\mailing\models\filters\MailingListItemFilter;
-use yii\filters\VerbFilter;
 use floor12\mailing\models\MailingList;
-use floor12\mailing\models\MailingEmail;
-use \Yii;
+use floor12\mailing\models\MailingListItem;
+use floor12\mailing\models\MailingListItemBatchForm;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
 
 class ItemController extends Controller
 {
@@ -57,19 +56,27 @@ class ItemController extends Controller
         $model->load(\Yii::$app->request->get());
         return $this->render('index', ['model' => $model]);
     }
+    
 
     public function actions()
     {
         return [
             'form' => [
-                'class' => EditModalAction::className(),
-                'model' => MailingListItem::className(),
+                'class' => EditModalAction::class,
+                'model' => MailingListItem::class,
                 'message' => 'Адрес сохранён',
                 'viewParams' => ['lists' => MailingList::find()->forSelect()]
             ],
+            'batch' => [
+                'class' => EditModalAction::class,
+                'model' => MailingListItemBatchForm::class,
+                'message' => 'Адрес сохранён',
+                'view' => '_batch',
+                'viewParams' => ['lists' => MailingList::find()->forSelect()]
+            ],
             'delete' => [
-                'class' => DeleteAction::className(),
-                'model' => MailingListItem::className(),
+                'class' => DeleteAction::class,
+                'model' => MailingListItem::class,
                 'message' => 'Адрес удален'
             ],
         ];

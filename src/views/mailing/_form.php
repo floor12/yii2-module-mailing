@@ -15,8 +15,8 @@
 use floor12\files\components\FileInputWidget;
 use floor12\files\logic\ClassnameEncoder;
 use floor12\mailing\models\MailingType;
+use floor12\summernote\Summernote;
 use kartik\select2\Select2;
-use marqu3s\summernote\Summernote;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
