@@ -22,7 +22,7 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
     public $controllerNamespace = 'floor12\mailing\controllers';
-src
+
     /** Путь к макету, который используется в контроллерах управления рассылками
      * @var string
      */
