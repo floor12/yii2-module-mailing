@@ -42,7 +42,7 @@ class MailingEmail extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'mailing_id' => 'Связь с рассылкой',
+            'mailing_id' => Yii::t('mailing', 'The link to the newsletter'),
             'email' => 'Email',
         ];
     }

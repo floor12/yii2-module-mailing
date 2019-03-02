@@ -11,6 +11,7 @@
  *
  */
 
+use Yii;
 use floor12\mailing\models\MailingListItemSex;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -23,7 +24,7 @@ $form = ActiveForm::begin([
 
 ?>
 <div class="modal-header">
-    <h2><?= $model->isNewRecord ? "Добавление адреса" : "Редактирование адреса"; ?></h2>
+    <h2><?= $model->isNewRecord ? Yii::t('mailing', 'Добавление адреса') : Yii::t('mailing', 'Address editing'); ?></h2>
 </div>
 <div class="modal-body">
 
@@ -50,8 +51,8 @@ $form = ActiveForm::begin([
 </div>
 
 <div class="modal-footer">
-    <?= Html::a('Отмена', '', ['class' => 'btn btn-default modaledit-disable']) ?>
-    <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
+    <?= Html::submitButton($model->isNewRecord ? Yii::t('mailing', 'Create') : Yii::t('mailing', 'Save'), ['class' => 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

@@ -60,12 +60,12 @@ class ListController extends Controller
             'form' => [
                 'class' => EditModalAction::className(),
                 'model' => MailingList::className(),
-                'message' => 'Список сохранён'
+                'message' => Yii::t('mailing', 'List saved')
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
                 'model' => MailingList::className(),
-                'message' => 'Список удален'
+                'message' => Yii::t('mailing', 'List deleted')
             ],
         ];
     }

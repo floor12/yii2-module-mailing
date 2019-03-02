@@ -2,6 +2,7 @@
 
 namespace floor12\mailing;
 
+use Yii;
 use yii\base\InvalidConfigException;
 
 /**
@@ -88,16 +89,30 @@ class Module extends \yii\base\Module
     public function init()
     {
         if (!$this->fromEmail)
-            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$fromEmail`.');
+            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$fromEmail'));
 
         if (!$this->fromName)
-            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$fromName`.');
+            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$fromName'));
 
         if (!$this->htmlTemplate)
-            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$htmlTemplate`.');
+            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$htmlTemplate'));
 
         if (!$this->domain)
-            throw new InvalidConfigException('В конфигурации модуля не указан парметр `$domain`.');
+            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$domain'));
+
+        $this->registerTranslations();
+    }
+
+    public function registerTranslations()
+    {
+        Yii::$app->i18n->translations['modules/mailing/*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en-US',
+            'basePath' => '@kivicms/mailing/messages',
+            'fileMap' => [
+                'mailing' => 'mailing.php',
+            ],
+        ];
     }
 
     public function makeStatGifUrl($id, $hash)

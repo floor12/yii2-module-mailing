@@ -2,6 +2,8 @@
 
 namespace floor12\mailing\models;
 
+
+use Yii;
 /**
  * This is the model class for table "mailing_list".
  *
@@ -53,10 +55,10 @@ class MailingList extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Название списка',
-            'status' => 'Скрыть',
-            'listItemsActiveCount' => 'Активных адресов',
-            'itemsUnsubscribedCount' => 'Отписавшихся',
+            'title' => Yii::t('mailing', 'List name'),
+            'status' =>  Yii::t('mailing', 'Hide'),
+            'listItemsActiveCount' =>  Yii::t('mailing', 'Active addresses'),
+            'itemsUnsubscribedCount' => Yii::t('mailing', 'Unsubscribe'),
         ];
     }
 

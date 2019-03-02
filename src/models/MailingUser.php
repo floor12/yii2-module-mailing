@@ -41,8 +41,8 @@ class MailingUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'mailing_id' => 'Связь с рассылкой',
-            'user_id' => 'Связь с пользователем',
+            'mailing_id' => Yii::t('mailing', 'The link to the newsletter'),
+            'user_id' => Yii::t('mailing', 'The link to the user'),
         ];
     }
 

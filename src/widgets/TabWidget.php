@@ -8,6 +8,7 @@
 
 namespace floor12\mailing\widgets;
 
+use Yii;
 use yii\helpers\Url;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -21,15 +22,15 @@ class TabWidget extends Widget
     {
         $this->items = [
             [
-                'name' => 'Рассылки',
+                'name' => Yii::t('mailing', 'Mailing'),
                 'href' => Url::toRoute(['/mailing/mailing'])
             ],
             [
-                'name' => 'Списки адресов',
+                'name' => Yii::t('mailing', 'Address list'),
                 'href' => Url::toRoute(['/mailing/list'])
             ],
             [
-                'name' => 'Адреса',
+                'name' => Yii::t('mailing', 'Addresses'),
                 'href' => Url::toRoute(['/mailing/item'])
             ],
         ];

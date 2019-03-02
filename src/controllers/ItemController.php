@@ -64,20 +64,20 @@ class ItemController extends Controller
             'form' => [
                 'class' => EditModalAction::class,
                 'model' => MailingListItem::class,
-                'message' => 'Адрес сохранён',
+                'message' => Yii::t('mailing', 'Address saved'),
                 'viewParams' => ['lists' => MailingList::find()->forSelect()]
             ],
             'batch' => [
                 'class' => EditModalAction::class,
                 'model' => MailingListItemBatchForm::class,
-                'message' => 'Адрес сохранён',
+                'message' => Yii::t('mailing', 'Address saved'),
                 'view' => '_batch',
                 'viewParams' => ['lists' => MailingList::find()->forSelect()]
             ],
             'delete' => [
                 'class' => DeleteAction::class,
                 'model' => MailingListItem::class,
-                'message' => 'Адрес удален'
+                'message' => Yii::t('mailing', 'Address deleted')
             ],
         ];
     }

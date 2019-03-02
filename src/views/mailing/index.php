@@ -11,7 +11,6 @@
  */
 
 use floor12\editmodal\EditModalHelper;
-use floor12\mailing\assets\IconHelper;
 use floor12\mailing\assets\MailingAsset;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingType;
@@ -23,23 +22,21 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
-
 MailingAsset::register($this);
 
-$this->title = 'Рассылки';
+$this->title = Yii::t('mailing', 'mailing');
 
 $this->registerJs("routeMailingSend='" . Url::toRoute(['/mailing/mailing/send']) . "'");
 
 echo Html::tag('h1', $this->title);
 
-echo Html::tag('div',
-    Html::a(IconHelper::PLUS . " создать рассылку", null, [
-        'onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], 0),
-        'class' => 'btn btn-sm btn-default'
-    ]),
-    ['class' => 'pull-right']);
-
 echo TabWidget::widget([]);
+
+echo Html::a(FontAwesome::icon('plus') . Yii::t('mailing', 'Create a newsletter'), null, [
+    'onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], 0),
+    'class' => 'btn btn-sm btn-success btn-mailing-add'
+]);
+
 
 $form = ActiveForm::begin([
     'enableClientValidation' => false,
@@ -52,10 +49,10 @@ $form = ActiveForm::begin([
     <div class="filter-block">
         <div class="row">
             <div class="col-md-9">
-                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => 'Фильтр...']) ?>
+                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('mailing', 'Filter...')]) ?>
             </div>
             <div class="col-md-3">
-                <?= $form->field($model, 'status')->label(false)->dropDownList(Yii::createObject(Mailing::class, [])->statuses, ['prompt' => 'все статусы']) ?>
+                <?= $form->field($model, 'status')->label(false)->dropDownList(Yii::createObject(Mailing::class, [])->statuses, ['prompt' => Yii::t('mailing', 'All statuses')]) ?>
             </div>
         </div>
 
@@ -85,12 +82,10 @@ echo GridView::widget([
         'clicks',
         ['contentOptions' => ['style' => 'min-width:100px; text-align:right;'],
             'content' => function (Mailing $model) {
-                $ret = '';
-                if ($model->status == Mailing::STATUS_DRAFT)
-                    $ret .= Html::a(IconHelper::SEND, NULL, ['onclick' => "sendMailing({$model->id})", 'class' => 'btn btn-default btn-sm']) . " ";
-
-                $ret .= Html::a(FontAwesome::icon('pencil'), NULL, ['onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
+                $ret = Html::a(FontAwesome::icon('pencil'), NULL, ['onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
                 $ret .= Html::a(FontAwesome::icon('trash'), NULL, ['onclick' => EditModalHelper::deleteItem(['/mailing/mailing/delete'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
+                if ($model->status == Mailing::STATUS_DRAFT)
+                    $ret .= Html::a(FontAwesome::icon('send'), NULL, ['onclick' => "sendMailing({$model->id})", 'class' => 'btn btn-success btn-sm']) . " ";
                 return $ret;
             },
         ]

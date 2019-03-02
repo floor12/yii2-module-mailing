@@ -8,7 +8,7 @@
 
 namespace floor12\mailing\models;
 
-
+use Yii;
 use yii2mod\enum\helpers\BaseEnum;
 
 class MailingListItemSex extends BaseEnum
@@ -17,10 +17,16 @@ class MailingListItemSex extends BaseEnum
     const MAN = 1;
     const WOMAN = 2;
 
-    public  static $list = [
-        self::NONE => 'Неизвестен',
-        self::MAN => 'Мужской',
-        self::WOMAN => 'Женский',
-    ];
+    public static $list = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+        self::$list = [
+            self::NONE => Yii::t('mailing', 'Unknown'),
+            self::MAN => Yii::t('mailing', 'Man'),
+            self::WOMAN => Yii::t('mailing', 'Woman'),
+        ];
+    }
 
 }

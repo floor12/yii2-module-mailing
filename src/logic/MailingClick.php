@@ -8,6 +8,7 @@
 
 namespace floor12\mailing\logic;
 
+use Yii;
 use floor12\mailing\models\MailingLink;
 use floor12\mailing\models\MailingStat;
 use yii\base\ErrorException;
@@ -23,7 +24,7 @@ class MailingClick
     {
         $this->_link = MailingLink::findOne(['hash' => $hash]);
         if (!$this->_link)
-            throw new NotFoundHttpException('Ссылка не найдена.');
+            throw new NotFoundHttpException(Yii::t('mailing', 'Link not found.'));
 
         $this->_stat = new MailingStat();
     }
@@ -34,7 +35,7 @@ class MailingClick
         $this->_stat->link_id = $this->_link->id;
         $this->_stat->timestamp = time();
         if (!$this->_stat->save())
-            throw new ErrorException('Во время сохранения статистики произошла проблема');
+            throw new ErrorException(Yii::t('mailing', 'An error occurred while saving the statistics.'));
         return $this->_link->link;
     }
 }

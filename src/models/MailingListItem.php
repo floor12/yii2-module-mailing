@@ -2,6 +2,8 @@
 
 namespace floor12\mailing\models;
 
+
+use Yii;
 /**
  * This is the model class for table "mailing_list_item".
  *
@@ -20,6 +22,7 @@ class MailingListItem extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 0;
     const STATUS_UNSUBSCRIBED = 1;
 
+    // Todo: Статусы!
     public $statuses = [
         self::STATUS_ACTIVE => 'Активный',
         self::STATUS_UNSUBSCRIBED => 'Отписался',
@@ -64,13 +67,13 @@ class MailingListItem extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'list_id' => 'Связь со списком',
-            'list' => 'Список',
+            'list_id' => Yii::t('mailing', 'The link to the newsletter'),
+            'list' => Yii::t('mailing', 'List'),
             'email' => 'Email',
-            'status' => 'Статус',
-            'status_string' => 'Статус',
-            'sex' => 'Пол получателя',
-            'fullname' => 'Имя получателя',
+            'status' => Yii::t('mailing', 'Status'),
+            'status_string' => Yii::t('mailing', 'Status'),
+            'sex' => Yii::t('mailing', 'Recipient gender'),
+            'fullname' => Yii::t('mailing', 'Recipient name'),
         ];
     }
 

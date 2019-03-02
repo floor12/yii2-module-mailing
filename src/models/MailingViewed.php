@@ -42,8 +42,8 @@ class MailingViewed extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'mailing_id' => 'Связь с рассылкой',
-            'hash' => 'Уникальный хеш для статистики',
+            'mailing_id' => Yii::t('mailing', 'The link to the newsletter'),
+            'hash' => Yii::t('mailing', 'Unique hash for statistics'),
         ];
     }
 
