@@ -25,5 +25,5 @@ class MailingStatus extends BaseEnum
         self::STATUS_SEND => 'Sent',
     ];
 
-    public static $messageCategory = 'mailing';
+    public static $messageCategory = 'app.f12.mailing';
 }

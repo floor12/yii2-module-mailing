@@ -22,7 +22,7 @@ class MailingListItemSex extends BaseEnum
         self::WOMAN => 'Woman',
     ];
 
-    public static $messageCategory = 'mailing';
+    public static $messageCategory = 'app.f12.mailing';
 
 
 }

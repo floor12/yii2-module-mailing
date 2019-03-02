@@ -22,5 +22,5 @@ class MailingListItemStatus extends BaseEnum
         self::STATUS_UNSUBSCRIBED => 'Unsubscribed',
     ];
 
-    public static $messageCategory = 'mailing';
+    public static $messageCategory = 'app.f12.mailing';
 }

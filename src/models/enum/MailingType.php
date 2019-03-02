@@ -22,6 +22,6 @@ class MailingType extends BaseEnum
         self::LIST => 'Saved address list',
     ];
 
-    public static $messageCategory = 'mailing';
+    public static $messageCategory = 'app.f12.mailing';
 
 }
