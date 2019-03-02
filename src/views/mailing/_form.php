@@ -15,7 +15,7 @@
 use floor12\files\components\FileInputWidget;
 use floor12\files\logic\ClassnameEncoder;
 use floor12\mailing\models\enum\MailingStatus;
-use floor12\mailing\models\MailingType;
+use floor12\mailing\models\enum\MailingType;
 use floor12\summernote\Summernote;
 use kartik\select2\Select2;
 use yii\helpers\Html;
@@ -46,7 +46,7 @@ $this->registerJs("mailingType()");
 
     <div class="row">
         <div class="col-md-5">
-            <?= $form->field($model, 'type')->dropDownList(MailingType::$list) ?>
+            <?= $form->field($model, 'type')->dropDownList(MailingType::listData()) ?>
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'status')->dropDownList(MailingStatus::listData()) ?>

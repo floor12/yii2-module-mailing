@@ -10,9 +10,9 @@ namespace floor12\mailing\tests\logic;
 
 use floor12\mailing\logic\MailingUpdate;
 use floor12\mailing\models\enum\MailingStatus;
+use floor12\mailing\models\enum\MailingType;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
-use floor12\mailing\models\MailingType;
 use floor12\mailing\tests\fixtures\MailingEmailFixture;
 use floor12\mailing\tests\fixtures\MailingFixture;
 use floor12\mailing\tests\fixtures\UserFixture;

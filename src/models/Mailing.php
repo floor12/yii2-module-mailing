@@ -4,6 +4,7 @@ namespace floor12\mailing\models;
 
 use floor12\files\components\FileBehaviour;
 use floor12\mailing\models\enum\MailingStatus;
+use floor12\mailing\models\enum\MailingType;
 use Yii;
 
 /**
