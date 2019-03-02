@@ -8,7 +8,6 @@
 
 namespace floor12\mailing\models\enum;
 
-use Yii;
 use yii2mod\enum\helpers\BaseEnum;
 
 
@@ -19,18 +18,12 @@ class MailingStatus extends BaseEnum
     const STATUS_SENDING = 2;
     const STATUS_SEND = 3;
 
-    public $list = [];
+    static public $list = [
+        self::STATUS_DRAFT => 'Draft',
+        self::STATUS_WAITING => 'In the queue for sending',
+        self::STATUS_SENDING => 'Sending',
+        self::STATUS_SEND => 'Sent',
+    ];
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        self::$list = [
-            self::STATUS_DRAFT => Yii::t('Draft'),
-            self::STATUS_WAITING => Yii::t('In the queue for sending'),
-            self::STATUS_SENDING => Yii::t('Sending'),
-            self::STATUS_SEND => Yii::t('Sent'),
-        ];
-
-    }
+    public static $messageCategory = 'mailing';
 }

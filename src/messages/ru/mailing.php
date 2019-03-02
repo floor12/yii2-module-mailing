@@ -34,7 +34,7 @@ return [
     'Email not found.' => 'E-mail не существует.',
 
     'Current state' => 'Текущее состояние',
-    'Header' => 'Заголовок',
+    'Subject' => 'Тема',
     'Content' => 'Содержание',
     'Created' => 'Создана',
     'Updated' => 'Обновлена',
@@ -68,7 +68,7 @@ return [
     'Mailing list' => 'Список рассылки',
     'Unknown' => 'Неизвестен',
     'Man' => 'Мужской',
-    'Women' => 'Женский',
+    'Woman' => 'Женский',
 
     'The link to the link' => 'Связь со ссылкой',
     'Timestamp' => 'Временная метка',
@@ -99,6 +99,11 @@ return [
     'Newsletter creation' => 'Создание рассылки',
     'Newsletter update' => 'Редактирование рассылки',
     'Create a newsletter' => 'Создать рассылку',
+    'Newsletters' => 'Рассылки',
+    'Mailing lists' => 'Списки рассылок',
 
+    'Active' => 'Активный',
+    'Hide' => 'Скрытый',
+    'Unsubscribed' => 'Отписался',
 
 ];

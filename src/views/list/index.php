@@ -10,29 +10,31 @@
  *
  */
 
-use Yii;
-use yii\helpers\Html;
-use yii\widgets\Pjax;
-use yii\grid\GridView;
 use floor12\editmodal\EditModalHelper;
-use floor12\mailing\models\MailingList;
-use rmrevin\yii\fontawesome\FontAwesome;
-use floor12\mailing\widgets\TabWidget;
+use floor12\mailing\assets\IconHelper;
 use floor12\mailing\assets\MailingAsset;
+use floor12\mailing\models\enum\MailingListStatus;
+use floor12\mailing\models\MailingList;
+use floor12\mailing\widgets\TabWidget;
+use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 MailingAsset::register($this);
 
-$this->title = Yii::t('mailing', 'Mailing');
+$this->title = Yii::t('mailing', 'Mailing lists');
 
 echo Html::tag('h1', $this->title);
 
-echo TabWidget::widget([]);
+echo Html::tag('div',
+    Html::a(IconHelper::PLUS . " " . Yii::t('mailing', 'Create list'), null, [
+        'onclick' => EditModalHelper::showForm(['/mailing/list/form'], 0),
+        'class' => 'btn btn-sm btn-default'
+    ]),
+    ['class' => 'pull-right']);
 
-echo Html::a(FontAwesome::icon('plus') . Yii::t('mailing', 'Create list'), null, [
-    'onclick' => EditModalHelper::showForm(['/mailing/list/form'], 0),
-    'class' => 'btn btn-sm btn-success btn-mailing-add'
-]);
+echo TabWidget::widget([]);
 
 $form = ActiveForm::begin([
     'enableClientValidation' => false,
@@ -59,7 +61,7 @@ echo GridView::widget([
         [
             'attribute' => 'title',
             'content' => function (MailingList $model): string {
-                if ($model->status == MailingList::STATUS_DISABLED)
+                if ($model->status == MailingListStatus::STATUS_HIDE)
                     $html = Html::tag('span', $model, ['class' => 'striked']);
                 else
                     $html = $model;

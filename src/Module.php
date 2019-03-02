@@ -88,6 +88,8 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
+        $this->registerTranslations();
+
         if (!$this->fromEmail)
             throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$fromEmail'));
 
@@ -99,16 +101,14 @@ class Module extends \yii\base\Module
 
         if (!$this->domain)
             throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$domain'));
-
-        $this->registerTranslations();
     }
 
     public function registerTranslations()
     {
-        Yii::$app->i18n->translations['modules/mailing/*'] = [
+        Yii::$app->i18n->translations['mailing'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => 'en-US',
-            'basePath' => '@kivicms/mailing/messages',
+            'basePath' => '@vendor/floor12/yii2-module-mailing/src/messages',
             'fileMap' => [
                 'mailing' => 'mailing.php',
             ],

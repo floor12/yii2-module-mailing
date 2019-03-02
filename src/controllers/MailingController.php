@@ -75,7 +75,7 @@ class MailingController extends Controller
             'delete' => [
                 'class' => \floor12\editmodal\DeleteAction::className(),
                 'model' => Mailing::className(),
-                'message' => Yii::t('Newsletter deleted')
+                'message' => Yii::t('mailing', 'Newsletter deleted')
             ],
         ];
     }

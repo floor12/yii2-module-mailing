@@ -4,6 +4,7 @@ namespace floor12\mailing\models;
 
 
 use Yii;
+
 /**
  * This is the model class for table "mailing_list_item".
  *
@@ -19,23 +20,7 @@ use Yii;
  */
 class MailingListItem extends \yii\db\ActiveRecord
 {
-    const STATUS_ACTIVE = 0;
-    const STATUS_UNSUBSCRIBED = 1;
-
-    // Todo: Статусы!
-    public $statuses = [
-        self::STATUS_ACTIVE => 'Активный',
-        self::STATUS_UNSUBSCRIBED => 'Отписался',
-    ];
-
-    /**
-     * @return string
-     */
-    public function getStatus_string()
-    {
-        return $this->statuses[$this->status];
-    }
-
+ 
     /**
      * {@inheritdoc}
      */

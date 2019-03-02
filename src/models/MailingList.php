@@ -16,9 +16,7 @@ use Yii;
  */
 class MailingList extends \yii\db\ActiveRecord
 {
-    const STATUS_ACTIVE = 0;
-    const STATUS_DISABLED = 1;
-
+    
     /**
      * {@inheritdoc}
      */

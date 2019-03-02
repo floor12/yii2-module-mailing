@@ -11,8 +11,8 @@
  *
  */
 
-use Yii;
-use floor12\mailing\models\MailingListItemSex;
+use floor12\mailing\models\enum\MailingListItemSex;
+use floor12\mailing\models\enum\MailingListItemStatus;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -44,7 +44,7 @@ $form = ActiveForm::begin([
             <?= $form->field($model, 'list_id')->dropDownList($lists) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'status')->dropDownList($model->statuses) ?>
+            <?= $form->field($model, 'status')->dropDownList(MailingListItemStatus::listData()) ?>
         </div>
     </div>
 

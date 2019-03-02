@@ -2,7 +2,7 @@
 
 namespace floor12\mailing\models\query;
 
-use floor12\mailing\models\MailingListItem;
+use floor12\mailing\models\enum\MailingListItemStatus;
 
 /**
  * This is the ActiveQuery class for [[\floor12\mailing\models\MailingListItem]].
@@ -16,7 +16,7 @@ class MailingListItemQuery extends \yii\db\ActiveQuery
      */
     public function active()
     {
-        return $this->andWhere(['status' => MailingListItem::STATUS_ACTIVE]);
+        return $this->andWhere(['status' => MailingListItemStatus::STATUS_ACTIVE]);
     }
 
     /**
@@ -24,8 +24,9 @@ class MailingListItemQuery extends \yii\db\ActiveQuery
      */
     public function unsubscribed()
     {
-        return $this->andWhere(['status' => MailingListItem::STATUS_UNSUBSCRIBED]);
+        return $this->andWhere(['status' => MailingListItemStatus::STATUS_UNSUBSCRIBED]);
     }
+
     /**
      * {@inheritdoc}
      * @return \floor12\mailing\models\MailingListItem[]|array

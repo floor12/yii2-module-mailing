@@ -3,6 +3,7 @@
 namespace floor12\mailing\models;
 
 use floor12\files\components\FileBehaviour;
+use floor12\mailing\models\enum\MailingStatus;
 use Yii;
 
 /**
@@ -35,19 +36,6 @@ use Yii;
 class Mailing extends \yii\db\ActiveRecord
 {
 
-    const STATUS_DRAFT = 0;
-    const STATUS_WAITING = 1;
-    const STATUS_SENDING = 2;
-    const STATUS_SEND = 3;
-
-    // Todo: !!!
-    public $statuses = [
-        self::STATUS_DRAFT => "Черновик",
-        self::STATUS_WAITING => "В очереди на отправку",
-        self::STATUS_SENDING => "Отправляется",
-        self::STATUS_SEND => "Отправлено",
-    ];
-
     public $external_ids = [];
 
     public $emails_array = [];
@@ -70,14 +58,6 @@ class Mailing extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return string
-     */
-    public function getStatus_string()
-    {
-        return $this->statuses[$this->status];
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -90,10 +70,10 @@ class Mailing extends \yii\db\ActiveRecord
             ['files', 'file', 'maxFiles' => 20],
             ['emails_array', 'each', 'rule' => ['email'], 'message' => 'Есть невалидный адрес'],
             ['status', 'in', 'range' => [
-                self::STATUS_DRAFT,
-                self::STATUS_WAITING,
-                self::STATUS_SENDING,
-                self::STATUS_SEND
+                MailingStatus::STATUS_DRAFT,
+                MailingStatus::STATUS_WAITING,
+                MailingStatus::STATUS_SENDING,
+                MailingStatus::STATUS_SEND
             ]
             ]
         ];
@@ -107,8 +87,7 @@ class Mailing extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'status' => Yii::t('mailing', 'Current state'),
-            'status_string' => Yii::t('mailing', 'Current state'),
-            'title' => Yii::t('mailing', 'Header'),
+            'title' => Yii::t('mailing', 'Subject'),
             'content' => Yii::t('mailing', 'Content'),
             'created' => Yii::t('mailing', 'Created'),
             'updated' => Yii::t('mailing', 'Updated'),
