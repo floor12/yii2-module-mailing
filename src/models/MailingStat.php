@@ -45,9 +45,9 @@ class MailingStat extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'mailing_id' => 'Связь с рассылкой',
-            'link_id' => 'Связь c ссылкой',
-            'timestamp' => 'Временная метка',
+            'mailing_id' => Yii::t('mailing', 'The link to the newsletter'),
+            'link_id' => Yii::t('mailing', 'The link to the link'),
+            'timestamp' => Yii::t('mailing', 'Timestamp'),
         ];
     }
 

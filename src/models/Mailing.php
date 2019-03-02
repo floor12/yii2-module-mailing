@@ -40,6 +40,7 @@ class Mailing extends \yii\db\ActiveRecord
     const STATUS_SENDING = 2;
     const STATUS_SEND = 3;
 
+    // Todo: !!!
     public $statuses = [
         self::STATUS_DRAFT => "Черновик",
         self::STATUS_WAITING => "В очереди на отправку",
@@ -105,22 +106,22 @@ class Mailing extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'status' => 'Текущее состояние',
-            'status_string' => 'Текущее состояние',
-            'title' => 'Заголовок',
-            'content' => 'Содержание',
-            'created' => 'Создана',
-            'updated' => 'Обновлена',
-            'send' => 'Отправлена',
-            'list_id' => 'Список для рассылки',
-            'create_user_id' => 'Создал',
-            'update_user_id' => 'Обновил',
-            'recipient_total' => 'Получателей',
-            'emails_array' => 'Получатели (внешние)',
-            'files' => 'Приложения',
-            'clicks' => 'Кликов',
-            'views' => 'Просмотров',
-            'type' => 'Тип рассылки',
+            'status' => Yii::t('mailing', 'Current state'),
+            'status_string' => Yii::t('mailing', 'Current state'),
+            'title' => Yii::t('mailing', 'Header'),
+            'content' => Yii::t('mailing', 'Content'),
+            'created' => Yii::t('mailing', 'Created'),
+            'updated' => Yii::t('mailing', 'Updated'),
+            'send' => Yii::t('mailing', 'SendAt'),
+            'list_id' => Yii::t('mailing', 'Mailing list'),
+            'create_user_id' => Yii::t('mailing', 'Author'),
+            'update_user_id' => Yii::t('mailing', 'Updater'),
+            'recipient_total' => Yii::t('mailing', 'Recipients'),
+            'emails_array' => Yii::t('mailing', 'Recipients (external)'),
+            'files' => Yii::t('mailing', 'Attachments'),
+            'clicks' => Yii::t('mailing', 'Clicks'),
+            'views' => Yii::t('mailing', 'Views'),
+            'type' => Yii::t('mailing', 'Mailing type'),
         ];
     }
 
@@ -181,6 +182,7 @@ class Mailing extends \yii\db\ActiveRecord
 
     /**
      * Загружаем связанные модели адресов отправки во временное поле
+     * We load the associated dispatch address models into a temporary field.
      */
     public function loadEmails()
     {
@@ -192,6 +194,7 @@ class Mailing extends \yii\db\ActiveRecord
 
     /**
      * Загружаем связанные внешние адреса из других классов
+     * Load related foreign addresses from other classes.
      */
     public function loadExternals()
     {
@@ -202,19 +205,19 @@ class Mailing extends \yii\db\ActiveRecord
     }
 
     /** Подсчет общего количества получателей
+     * Counting Total Recipients
      * @return int
      */
-    public
-    function getRecipient_total()
+    public function getRecipient_total()
     {
         return intval(sizeof($this->recipients));
     }
 
     /** Общий массив адресов-получателей
+     * Common array of recipient addresses
      * @return array
      */
-    public
-    function getRecipients()
+    public function getRecipients()
     {
         switch ($this->type) {
             case MailingType::FREE:
@@ -227,7 +230,7 @@ class Mailing extends \yii\db\ActiveRecord
                         $externalModel = $external->class::findOne($external->object_id);
                         if (!$externalModel->getMailingEmail())
                             continue;
-                        
+
                         $externalModelsEmails[$key]['email'] = $externalModel->getMailingEmail();
                         $externalModelsEmails[$key]['fullname'] = $externalModel->getMailingFullname();
                     }
@@ -246,17 +249,16 @@ class Mailing extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public
-    function getEmails()
+    public function getEmails()
     {
         return $this->hasMany(MailingEmail::className(), ['mailing_id' => 'id']);
     }
 
     /** Подсчет просмотров рассылки
+     * Counting mailings
      * @return int
      */
-    public
-    function getViews()
+    public function getViews()
     {
         return intval($this->getMailingVieweds()->count());
     }
@@ -264,8 +266,7 @@ class Mailing extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public
-    function getMailingVieweds()
+    public function getMailingVieweds()
     {
         return $this->hasMany(MailingViewed::className(), ['mailing_id' => 'id']);
     }
@@ -273,8 +274,7 @@ class Mailing extends \yii\db\ActiveRecord
     /** Подсчет кликов
      * @return int
      */
-    public
-    function getClicks()
+    public function getClicks()
     {
         return intval($this->getMailingStat()->count());
     }
@@ -282,8 +282,7 @@ class Mailing extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public
-    function getMailingStat()
+    public function getMailingStat()
     {
         return $this->hasMany(MailingStat::className(), ['mailing_id' => 'id']);
     }

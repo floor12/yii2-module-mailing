@@ -19,7 +19,7 @@ class MailingView
     public function __construct($id, $hash)
     {
         if (!Mailing::findOne((int)$id))
-            throw new NotFoundHttpException('Рассылка не найдена.');
+            throw new NotFoundHttpException(Yii::t('mailing', 'Newsletter not exists'));
         $this->_id = $id;
         $this->_hash = $hash;
     }

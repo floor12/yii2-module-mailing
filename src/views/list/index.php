@@ -10,31 +10,29 @@
  *
  */
 
-use floor12\editmodal\EditModalHelper;
-use floor12\mailing\assets\IconHelper;
-use floor12\mailing\assets\MailingAsset;
-use floor12\mailing\models\MailingList;
-use floor12\mailing\widgets\TabWidget;
-use yii\grid\GridView;
+use Yii;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
-
+use yii\grid\GridView;
+use floor12\editmodal\EditModalHelper;
+use floor12\mailing\models\MailingList;
+use rmrevin\yii\fontawesome\FontAwesome;
+use floor12\mailing\widgets\TabWidget;
+use floor12\mailing\assets\MailingAsset;
+use yii\widgets\ActiveForm;
 
 MailingAsset::register($this);
 
-$this->title = 'Рассылки';
+$this->title = Yii::t('mailing', 'Mailing');
 
 echo Html::tag('h1', $this->title);
 
-echo Html::tag('div',
-    Html::a(IconHelper::PLUS . " добавить список", null, [
-        'onclick' => EditModalHelper::showForm(['/mailing/list/form'], 0),
-        'class' => 'btn btn-sm btn-default'
-    ]),
-    ['class' => 'pull-right']);
-
 echo TabWidget::widget([]);
+
+echo Html::a(FontAwesome::icon('plus') . Yii::t('mailing', 'Create list'), null, [
+    'onclick' => EditModalHelper::showForm(['/mailing/list/form'], 0),
+    'class' => 'btn btn-sm btn-success btn-mailing-add'
+]);
 
 $form = ActiveForm::begin([
     'enableClientValidation' => false,
@@ -45,7 +43,7 @@ $form = ActiveForm::begin([
     ]]) ?>
 
     <div class="filter-block">
-        <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => 'Фильтр...']) ?>
+        <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('mailing', 'Filter...')]) ?>
     </div>
 
 <?php ActiveForm::end();

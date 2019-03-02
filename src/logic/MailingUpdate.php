@@ -54,6 +54,7 @@ class MailingUpdate
 
     /**
      * Линкуем текущую рассылку и ее почтовые адреса
+     * We link the current newsletter and its email addresses
      */
     private function linkEmails()
     {
@@ -69,6 +70,7 @@ class MailingUpdate
 
     /**
      * Линкуем текущую рассылку с моделями проекта по которым тоже надо рассылать
+     * We link the current newsletter with the project models for which we also need to send
      */
     private function linkExternal()
     {

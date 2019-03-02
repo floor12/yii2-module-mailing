@@ -36,7 +36,7 @@ class MailingLinkCreate
         $this->_model->hash = md5("{$this->_mailing_id}{$this->_link}" . time());
 
         if (!$this->_model->save())
-            throw new \ErrorException("Не удалось сгенерировать ссылку для редиректа: {$this->_link}");
+            throw new \ErrorException(Yii::t('mailing', 'Could not generate link for redirect: {0}', $this->_link));
 
         return Yii::$app->getModule('mailing')->makeRedirectUrl($this->_model->hash);
     }

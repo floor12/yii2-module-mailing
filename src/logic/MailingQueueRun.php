@@ -38,10 +38,10 @@ class MailingQueueRun
     {
 
         if (!$this->_mailing)
-            return 'Очередь пуста.';
+            return Yii::t('mailing', 'The queue is empty.');
 
         if (!$this->_mailing->recipients)
-            return "Список получателей рассылки id:{$this->_mailing->id} пуст.";
+            return Yii::t('mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
 
         $this->currentMailingStatusChange(Mailing::STATUS_SENDING);
 
@@ -83,7 +83,9 @@ class MailingQueueRun
         return $ret;
     }
 
-    /** Заменяем переменные в теле письма, если они есть.
+    /**
+     * Заменяем переменные в теле письма, если они есть.
+     * Replace variables in the body of the letter, if any.
      * @param string $content
      * @param array $recipient
      * @return string
@@ -106,7 +108,7 @@ class MailingQueueRun
         } else {
             $content = str_replace("[%Dear]", 'Уважаемый(ая)', $content);
             $content = str_replace("[%dear]", 'уважаемый(ая)', $content);
-        }
+        } // ToDo: !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return $content;
     }
 
@@ -117,7 +119,7 @@ class MailingQueueRun
     {
         $this->_mailing->status = $status;
         if (!$this->_mailing->save(true, ['status']))
-            throw new ErrorException('Некорректная попытка выставить статус');
+            throw new ErrorException(Yii::t('mailing', 'Incorrect attempt to set status.'));
     }
 
     private function replaceLinks()

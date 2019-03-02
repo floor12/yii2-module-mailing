@@ -11,6 +11,7 @@
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -22,7 +23,7 @@ $form = ActiveForm::begin([
 
 ?>
 <div class="modal-header">
-    <h2>Пакетная загрузка адресов</h2>
+    <h2><?= Yii::t('mailing', 'Batch address download') ?></h2>
 </div>
 <div class="modal-body">
 
@@ -35,8 +36,8 @@ $form = ActiveForm::begin([
 </div>
 
 <div class="modal-footer">
-    <?= Html::a('Отмена', '', ['class' => 'btn btn-default modaledit-disable']) ?>
-    <?= Html::submitButton('Загрузить', ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
+    <?= Html::submitButton(Yii::t('mailing', 'Load'), ['class' => 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

@@ -19,10 +19,10 @@ class MailingSend
     {
         $this->_model = $model;
         if ($this->_model->status != Mailing::STATUS_DRAFT)
-            throw new BadRequestHttpException('Эта рассылка не находится в статусе черновика.');
+            throw new BadRequestHttpException(Yii::t('mailing', 'This newsletter is not in draft status.'));
 
         if (!$model->recipient_total)
-            throw new BadRequestHttpException('У этой рассылки нет ни одного получателя.');
+            throw new BadRequestHttpException(Yii::t('mailing', 'This mailing has no recipients.'));
     }
 
     public function execute()

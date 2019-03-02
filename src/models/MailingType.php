@@ -8,7 +8,7 @@
 
 namespace floor12\mailing\models;
 
-
+use Yii;
 use yii2mod\enum\helpers\BaseEnum;
 
 class MailingType extends BaseEnum
@@ -17,9 +17,15 @@ class MailingType extends BaseEnum
     const EXT_CLASS = 1;
     const LIST = 2;
 
-    public static $list = [
-      self::FREE => 'Произвольный список адресов',
-      self::EXT_CLASS => 'Объекты внешнего класса ',
-      self::LIST => 'Сохраненный писок адресов',
-    ];
+    public static $list = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+        self::$list = [
+            self::FREE => Yii::t('mailing', 'Arbitrary address list'),
+            self::EXT_CLASS => Yii::t('mailing', 'Objects of the outer class'),
+            self::LIST => Yii::t('mailing', 'Saved address list'),
+        ];
+    }
 }

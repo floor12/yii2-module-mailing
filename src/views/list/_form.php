@@ -10,6 +10,7 @@
  *
  */
 
+use Yii;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
@@ -21,7 +22,7 @@ $form = ActiveForm::begin([
 
 ?>
 <div class="modal-header">
-    <h2><?= $model->isNewRecord ? "Создание списка адресов" : "Редактирование списка адресов"; ?></h2>
+    <h2><?= $model->isNewRecord ? Yii::t('mailing', 'Create address list') : Yii::t('mailing', 'Update address list'); ?></h2>
 </div>
 <div class="modal-body">
 
@@ -39,8 +40,8 @@ $form = ActiveForm::begin([
 </div>
 
 <div class="modal-footer">
-    <?= Html::a('Отмена', '', ['class' => 'btn btn-default modaledit-disable']) ?>
-    <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
+    <?= Html::submitButton($model->isNewRecord ? Yii::t('mailing', 'Create') : Yii::t('mailing', 'Save'), ['class' => 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>
