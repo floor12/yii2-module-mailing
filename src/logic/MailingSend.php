@@ -8,7 +8,9 @@
 
 namespace floor12\mailing\logic;
 
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
+use Yii;
 use yii\web\BadRequestHttpException;
 
 class MailingSend
@@ -18,7 +20,7 @@ class MailingSend
     public function __construct(Mailing $model)
     {
         $this->_model = $model;
-        if ($this->_model->status != Mailing::STATUS_DRAFT)
+        if ($this->_model->status != MailingStatus::STATUS_DRAFT)
             throw new BadRequestHttpException(Yii::t('mailing', 'This newsletter is not in draft status.'));
 
         if (!$model->recipient_total)
@@ -28,7 +30,7 @@ class MailingSend
     public function execute()
     {
         $this->_model->send = time();
-        $this->_model->status = Mailing::STATUS_WAITING;
+        $this->_model->status = MailingStatus::STATUS_WAITING;
         return $this->_model->save(true, ['status', 'send']);
     }
 

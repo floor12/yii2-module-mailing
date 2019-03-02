@@ -8,6 +8,7 @@
 
 namespace floor12\mailing\logic;
 
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
 use floor12\mailing\models\MailingExternal;
@@ -34,7 +35,7 @@ class MailingUpdate
         if ($this->_model->isNewRecord) {
             $this->_model->created = time();
             $this->_model->create_user_id = $this->_identity->getId();
-            $this->_model->status = Mailing::STATUS_DRAFT;
+            $this->_model->status = MailingStatus::STATUS_DRAFT;
         }
         $this->_model->updated = time();
         $this->_model->update_user_id = $this->_identity->getId();

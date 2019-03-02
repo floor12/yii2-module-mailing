@@ -108,7 +108,7 @@ class Module extends \yii\base\Module
         Yii::$app->i18n->translations['mailing'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => 'en-US',
-            'basePath' => '@vendor/floor12/yii2-module-mailing/src/messages',
+            'basePath' => __DIR__ . DIRECTORY_SEPARATOR . 'messages',
             'fileMap' => [
                 'mailing' => 'mailing.php',
             ],

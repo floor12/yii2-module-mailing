@@ -6,6 +6,7 @@
  * Time: 18:42
  */
 
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
 
 return [
@@ -15,7 +16,7 @@ return [
         'content' => 1,
         'created' => 1,
         'updated' => 1,
-        'status' => Mailing::STATUS_DRAFT
+        'status' => MailingStatus::STATUS_DRAFT
     ],
     'send' => [
         'id' => 2,
@@ -23,7 +24,7 @@ return [
         'content' => 1,
         'created' => 1,
         'updated' => 1,
-        'status' => Mailing::STATUS_SEND
+        'status' => MailingStatus::STATUS_SEND
     ],
     'ok' => [
         'id' => 3,
@@ -31,7 +32,7 @@ return [
         'content' => 1,
         'created' => 1,
         'updated' => 1,
-        'status' => Mailing::STATUS_DRAFT,
+        'status' => MailingStatus::STATUS_DRAFT,
         'create_user_id' => 10,
         'update_user_id' => 10,
     ],
@@ -51,7 +52,7 @@ return [
         'created' => 1,
         'updated' => 1,
         'list_id' => 1,
-        'status' => Mailing::STATUS_DRAFT,
+        'status' => MailingStatus::STATUS_DRAFT,
         'create_user_id' => 10,
         'update_user_id' => 10,
     ],
@@ -61,7 +62,7 @@ return [
         'content' => 1,
         'created' => 1,
         'updated' => 1,
-        'status' => Mailing::STATUS_SEND,
+        'status' => MailingStatus::STATUS_SEND,
         'create_user_id' => 10,
         'update_user_id' => 10,
     ],

@@ -10,6 +10,7 @@ namespace floor12\mailing\logic;
 
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingViewed;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class MailingView
@@ -19,7 +20,7 @@ class MailingView
     public function __construct($id, $hash)
     {
         if (!Mailing::findOne((int)$id))
-            throw new NotFoundHttpException(Yii::t('mailing', 'Newsletter not exists'));
+            throw new NotFoundHttpException(Yii::t('mailing', 'Newsletter not exists.'));
         $this->_id = $id;
         $this->_hash = $hash;
     }

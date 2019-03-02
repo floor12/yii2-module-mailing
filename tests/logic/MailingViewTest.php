@@ -53,7 +53,7 @@ class MailingViewTest extends TestCase
 
     /** Передаем несуществующий ID рассылки
      * @expectedException yii\web\NotFoundHttpException
-     * @expectedExceptionMessage Рассылка не найдена.
+     * @expectedExceptionMessage Newsletter not exists.
      * @throws \yii\base\InvalidConfigException
      */
     public function testWrongId()

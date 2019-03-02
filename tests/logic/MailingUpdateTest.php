@@ -9,6 +9,7 @@
 namespace floor12\mailing\tests\logic;
 
 use floor12\mailing\logic\MailingUpdate;
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
 use floor12\mailing\models\MailingType;
@@ -86,7 +87,7 @@ class MailingUpdateTest extends TestCase
         $this->assertEquals('title', $model->title);
         $this->assertEquals($user->getId(), $model->create_user_id);
         $this->assertEquals($user->getId(), $model->update_user_id);
-        $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
+        $this->assertEquals(MailingStatus::STATUS_DRAFT, $model->status);
     }
 
     /** Проверяем создание, выставления временных меток и добавление адресов

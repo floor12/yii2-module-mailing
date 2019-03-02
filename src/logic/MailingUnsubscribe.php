@@ -9,6 +9,7 @@
 namespace floor12\mailing\logic;
 
 
+use floor12\mailing\models\enum\MailingListItemStatus;
 use floor12\mailing\models\MailingListItem;
 use Yii;
 use yii\web\BadRequestHttpException;
@@ -36,13 +37,13 @@ class MailingUnsubscribe
         $emailItem = MailingListItem::find([
             'email' => $this->_email,
             'list_id' => $this->_list_id,
-            'status' => MailingListItem::STATUS_ACTIVE
+            'status' => MailingListItemStatus::STATUS_ACTIVE
         ])->one();
 
         if (!$emailItem)
             throw new BadRequestHttpException(Yii::t('mailing', 'Email not found'));
 
-        $emailItem->status = MailingListItem::STATUS_UNSUBSCRIBED;
+        $emailItem->status = MailingListItemStatus::STATUS_UNSUBSCRIBED;
         $emailItem->save(true, ['status']);
     }
 

@@ -9,6 +9,7 @@
 namespace floor12\mailing\tests\logic;
 
 use floor12\mailing\logic\AddressLoader;
+use floor12\mailing\models\enum\MailingListStatus;
 use floor12\mailing\models\MailingList;
 use floor12\mailing\tests\TestCase;
 
@@ -50,7 +51,7 @@ class AddressLoaderTest extends TestCase
     public function testSaveEmails()
     {
         $string = 'test@test.ru, some@email.com;   test@test.ru new@emails.net';
-        $list = new MailingList(['title' => 'testList', 'status' => MailingList::STATUS_ACTIVE]);
+        $list = new MailingList(['title' => 'testList', 'status' => MailingListStatus::STATUS_ACTIVE]);
         $this->assertTrue($list->save());
         $logic = new AddressLoader($list, $string);
         $this->assertTrue($logic->execute());

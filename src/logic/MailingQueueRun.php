@@ -8,8 +8,9 @@
 
 namespace floor12\mailing\logic;
 
+use floor12\mailing\models\enum\MailingListItemSex;
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
-use floor12\mailing\models\MailingListItemSex;
 use Yii;
 use yii\base\ErrorException;
 
@@ -28,10 +29,10 @@ class MailingQueueRun
     {
         $this->_module = Yii::$app->getModule('mailing');
 
-        if (Mailing::find()->where(['status' => Mailing::STATUS_SENDING])->one())
+        if (Mailing::find()->where(['status' => MailingStatus::STATUS_SENDING])->one())
             throw new ErrorException('Очередь отправки занята.');
 
-        $this->_mailing = Mailing::find()->where(['status' => Mailing::STATUS_WAITING])->one();
+        $this->_mailing = Mailing::find()->where(['status' => MailingStatus::STATUS_WAITING])->one();
     }
 
     public function execute()
@@ -43,7 +44,7 @@ class MailingQueueRun
         if (!$this->_mailing->recipients)
             return Yii::t('mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
 
-        $this->currentMailingStatusChange(Mailing::STATUS_SENDING);
+        $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
 
         $this->replaceLinks();
 
@@ -75,7 +76,7 @@ class MailingQueueRun
                 $this->_errors[] = $recipientRow['email'];
         }
 
-        $this->currentMailingStatusChange(Mailing::STATUS_SEND);
+        $this->currentMailingStatusChange(MailingStatus::STATUS_SEND);
 
         $ret = "success: " . sizeof($this->_send);
         if ($this->_errors)

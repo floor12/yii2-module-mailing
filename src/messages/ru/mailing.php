@@ -18,7 +18,7 @@ return [
     'Newsletter {0} not found' => 'Рассылка {0} не найдена',
     'Newsletter saved' => 'Рассылка сохранена',
     'Newsletter deleted' => 'Рассылка удалена',
-    'Newsletter not exists' => 'Рассылка не найдена.',
+    'Newsletter not exists.' => 'Рассылка не найдена.',
     'You have been successfully unsubscribed.' => 'Вы успешно отписаны',
     'Link not found.' => 'Ссылка не найдена.',
     'An error occurred while saving the statistics.' => 'Во время сохранения статистики произошла ошибка.',

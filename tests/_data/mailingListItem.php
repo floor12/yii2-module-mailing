@@ -6,26 +6,26 @@
  * Time: 18:42
  */
 
-use floor12\mailing\models\MailingListItem;
+use floor12\mailing\models\enum\MailingListItemStatus;
 
 return [
     [
         'id' => 1,
         'list_id' => 1,
         'email' => 'not@unuquie.com',
-        'status' => MailingListItem::STATUS_ACTIVE
+        'status' => MailingListItemStatus::STATUS_ACTIVE
     ],
     [
         'id' => 2,
         'list_id' => 1,
         'email' => 'unsubscribed@unuquie.com',
-        'status' => MailingListItem::STATUS_UNSUBSCRIBED
+        'status' => MailingListItemStatus::STATUS_UNSUBSCRIBED
     ],
     [
         'id' => 3,
         'list_id' => 1,
         'email' => 'test@gdfgdfgf.ru',
-        'status' => MailingListItem::STATUS_ACTIVE
+        'status' => MailingListItemStatus::STATUS_ACTIVE
     ],
 
 ];

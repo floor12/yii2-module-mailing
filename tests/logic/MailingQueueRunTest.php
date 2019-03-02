@@ -10,6 +10,7 @@ namespace floor12\mailing\tests\logic;
 
 use floor12\files\m180627_121715_files;
 use floor12\mailing\logic\MailingQueueRun;
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
 use floor12\mailing\tests\fixtures\MailingEmailFixture;
@@ -67,7 +68,7 @@ class MailingQueueRunTest extends TestCase
     public function testMailingQueueIsBusy()
     {
         $model = Mailing::findOne(4);
-        $model->status = Mailing::STATUS_SENDING;
+        $model->status = MailingStatus::STATUS_SENDING;
         $model->save();
         new MailingQueueRun();
     }
@@ -76,23 +77,23 @@ class MailingQueueRunTest extends TestCase
     public function testMailingQueueIsEmpty()
     {
         $logic = new MailingQueueRun();
-        $this->assertEquals('Очередь пуста.', $logic->execute());
+        $this->assertEquals('The queue is empty.', $logic->execute());
     }
 
     /** Проверяем ответ рассылка в очередь не имеет получателей (например очистили список рассылки) */
     public function testMailingHasNotRecipients()
     {
         $model = Mailing::findOne(1);
-        $model->status = Mailing::STATUS_WAITING;
+        $model->status = MailingStatus::STATUS_WAITING;
         $model->save();
         $logic = new MailingQueueRun();
-        $this->assertEquals('Список получателей рассылки id:1 пуст.', $logic->execute());
+        $this->assertEquals('Mailing list id: 1 is empty.', $logic->execute());
     }
 
     public function testMailingQueueRun()
     {
         $model = Mailing::findOne(4);
-        $model->status = Mailing::STATUS_WAITING;
+        $model->status = MailingStatus::STATUS_WAITING;
         $model->save();
         $this->assertEquals(0, sizeof($model->links));
         $logic = new MailingQueueRun();
@@ -102,7 +103,6 @@ class MailingQueueRunTest extends TestCase
         $this->assertEquals(2, sizeof($model->links));
 
     }
-
 
 
 }

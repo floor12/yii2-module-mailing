@@ -6,13 +6,13 @@
  * Time: 18:42
  */
 
-use floor12\mailing\models\MailingList;
+use floor12\mailing\models\enum\MailingListStatus;
 
 return [
     [
         'id' => 1,
         'title' => 'test list',
-        'status' => MailingList::STATUS_ACTIVE
+        'status' => MailingListStatus::STATUS_ACTIVE
     ],
 
 ];

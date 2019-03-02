@@ -58,7 +58,7 @@ class MailingClickTestTest extends TestCase
 
     /** Передаем несуществующий ID рассылки
      * @expectedException yii\web\NotFoundHttpException
-     * @expectedExceptionMessage Ссылка не найдена.
+     * @expectedExceptionMessage Link not found.
      * @throws \yii\base\InvalidConfigException
      */
 

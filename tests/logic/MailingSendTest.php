@@ -9,12 +9,13 @@
 namespace floor12\mailing\tests\logic;
 
 use floor12\mailing\logic\MailingSend;
+use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingEmail;
-use floor12\mailing\tests\fixtures\MailingFixture;
 use floor12\mailing\tests\fixtures\MailingEmailFixture;
+use floor12\mailing\tests\fixtures\MailingFixture;
 use floor12\mailing\tests\TestCase;
-use \Yii;
+use Yii;
 
 /**
  * @group mailing-test
@@ -57,7 +58,7 @@ class MailingSendTest extends TestCase
 
     /** Вызываем пуск рассылки, которая не в статусе черновика
      * @expectedException yii\web\BadRequestHttpException
-     * @expectedExceptionMessage Эта рассылка не находится в статусе черновика.
+     * @expectedExceptionMessage This newsletter is not in draft status.
      */
     public function testNotDraft()
     {
@@ -68,9 +69,9 @@ class MailingSendTest extends TestCase
 
     /** Вызываем пуск рассылки, которая имеет получателей.
      * @expectedException yii\web\BadRequestHttpException
-     * @expectedExceptionMessage У этой рассылки нет ни одного получателя.
+     * @expectedExceptionMessage This mailing has no recipients.
      */
-    public function testHasNoemail()
+    public function testHasNoEmail()
     {
         $model = Mailing::findOne(1);
         Yii::createObject(MailingSend::class, [$model])->execute();
@@ -83,10 +84,10 @@ class MailingSendTest extends TestCase
     public function testOk()
     {
         $model = Mailing::findOne(3);
-        $this->assertEquals(Mailing::STATUS_DRAFT, $model->status);
+        $this->assertEquals(MailingStatus::STATUS_DRAFT, $model->status);
         Yii::createObject(MailingSend::class, [$model])->execute();
         $model->refresh();
-        $this->assertEquals(Mailing::STATUS_WAITING, $model->status);
+        $this->assertEquals(MailingStatus::STATUS_WAITING, $model->status);
     }
 
 
