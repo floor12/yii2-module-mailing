@@ -11,6 +11,7 @@
  */
 
 use floor12\editmodal\EditModalHelper;
+use floor12\mailing\assets\IconHelper;
 use floor12\mailing\assets\MailingAsset;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\models\MailingType;
@@ -22,6 +23,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
+
 MailingAsset::register($this);
 
 $this->title = 'Рассылки';
@@ -30,13 +32,14 @@ $this->registerJs("routeMailingSend='" . Url::toRoute(['/mailing/mailing/send'])
 
 echo Html::tag('h1', $this->title);
 
+echo Html::tag('div',
+    Html::a(IconHelper::PLUS . " создать рассылку", null, [
+        'onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], 0),
+        'class' => 'btn btn-sm btn-default'
+    ]),
+    ['class' => 'pull-right']);
+
 echo TabWidget::widget([]);
-
-echo Html::a(FontAwesome::icon('plus') . " создать рассылку", null, [
-    'onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], 0),
-    'class' => 'btn btn-sm btn-success btn-mailing-add'
-]);
-
 
 $form = ActiveForm::begin([
     'enableClientValidation' => false,
@@ -82,10 +85,12 @@ echo GridView::widget([
         'clicks',
         ['contentOptions' => ['style' => 'min-width:100px; text-align:right;'],
             'content' => function (Mailing $model) {
-                $ret = Html::a(FontAwesome::icon('pencil'), NULL, ['onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
-                $ret .= Html::a(FontAwesome::icon('trash'), NULL, ['onclick' => EditModalHelper::deleteItem(['/mailing/mailing/delete'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
+                $ret = '';
                 if ($model->status == Mailing::STATUS_DRAFT)
-                    $ret .= Html::a(FontAwesome::icon('send'), NULL, ['onclick' => "sendMailing({$model->id})", 'class' => 'btn btn-success btn-sm']) . " ";
+                    $ret .= Html::a(IconHelper::SEND, NULL, ['onclick' => "sendMailing({$model->id})", 'class' => 'btn btn-default btn-sm']) . " ";
+
+                $ret .= Html::a(FontAwesome::icon('pencil'), NULL, ['onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
+                $ret .= Html::a(FontAwesome::icon('trash'), NULL, ['onclick' => EditModalHelper::deleteItem(['/mailing/mailing/delete'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
                 return $ret;
             },
         ]
