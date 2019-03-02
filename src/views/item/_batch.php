@@ -23,7 +23,7 @@ $form = ActiveForm::begin([
 
 ?>
 <div class="modal-header">
-    <h2><?= Yii::t('mailing', 'Batch address download') ?></h2>
+    <h2><?= Yii::t('app.f12.mailing', 'Batch address download') ?></h2>
 </div>
 <div class="modal-body">
 
@@ -36,8 +36,8 @@ $form = ActiveForm::begin([
 </div>
 
 <div class="modal-footer">
-    <?= Html::a(Yii::t('mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
-    <?= Html::submitButton(Yii::t('mailing', 'Load'), ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('app.f12.mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
+    <?= Html::submitButton(Yii::t('app.f12.mailing', 'Load'), ['class' => 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

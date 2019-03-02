@@ -21,10 +21,10 @@ class MailingSend
     {
         $this->_model = $model;
         if ($this->_model->status != MailingStatus::STATUS_DRAFT)
-            throw new BadRequestHttpException(Yii::t('mailing', 'This newsletter is not in draft status.'));
+            throw new BadRequestHttpException(Yii::t('app.f12.mailing', 'This newsletter is not in draft status.'));
 
         if (!$model->recipient_total)
-            throw new BadRequestHttpException(Yii::t('mailing', 'This mailing has no recipients.'));
+            throw new BadRequestHttpException(Yii::t('app.f12.mailing', 'This mailing has no recipients.'));
     }
 
     public function execute()

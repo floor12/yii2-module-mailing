@@ -26,14 +26,14 @@ use yii\widgets\Pjax;
 
 MailingAsset::register($this);
 
-$this->title = Yii::t('mailing', 'Newsletters');
+$this->title = Yii::t('app.f12.mailing', 'Newsletters');
 
 $this->registerJs("routeMailingSend='" . Url::toRoute(['/mailing/mailing/send']) . "'");
 
 echo Html::tag('h1', $this->title);
 
 echo Html::tag('div',
-    Html::a(IconHelper::PLUS . " " . Yii::t('mailing', 'Create a newsletter'), null, [
+    Html::a(IconHelper::PLUS . " " . Yii::t('app.f12.mailing', 'Create a newsletter'), null, [
         'onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], 0),
         'class' => 'btn btn-sm btn-default'
     ]),
@@ -52,10 +52,10 @@ $form = ActiveForm::begin([
     <div class="filter-block">
         <div class="row">
             <div class="col-md-9">
-                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('mailing', 'Filter...')]) ?>
+                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('app.f12.mailing', 'Filter...')]) ?>
             </div>
             <div class="col-md-3">
-                <?= $form->field($model, 'status')->label(false)->dropDownList(MailingStatus::listData(), ['prompt' => Yii::t('mailing', 'All statuses')]) ?>
+                <?= $form->field($model, 'status')->label(false)->dropDownList(MailingStatus::listData(), ['prompt' => Yii::t('app.f12.mailing', 'All statuses')]) ?>
             </div>
         </div>
 

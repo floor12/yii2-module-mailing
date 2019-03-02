@@ -42,8 +42,8 @@ class MailingViewed extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'mailing_id' => Yii::t('mailing', 'The link to the newsletter'),
-            'hash' => Yii::t('mailing', 'Unique hash for statistics'),
+            'mailing_id' => Yii::t('app.f12.mailing', 'The link to the newsletter'),
+            'hash' => Yii::t('app.f12.mailing', 'Unique hash for statistics'),
         ];
     }
 

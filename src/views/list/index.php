@@ -23,12 +23,12 @@ use yii\widgets\Pjax;
 
 MailingAsset::register($this);
 
-$this->title = Yii::t('mailing', 'Mailing lists');
+$this->title = Yii::t('app.f12.mailing', 'Mailing lists');
 
 echo Html::tag('h1', $this->title);
 
 echo Html::tag('div',
-    Html::a(IconHelper::PLUS . " " . Yii::t('mailing', 'Create list'), null, [
+    Html::a(IconHelper::PLUS . " " . Yii::t('app.f12.mailing', 'Create list'), null, [
         'onclick' => EditModalHelper::showForm(['/mailing/list/form'], 0),
         'class' => 'btn btn-sm btn-default'
     ]),
@@ -45,7 +45,7 @@ $form = ActiveForm::begin([
     ]]) ?>
 
     <div class="filter-block">
-        <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('mailing', 'Filter...')]) ?>
+        <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('app.f12.mailing', 'Filter...')]) ?>
     </div>
 
 <?php ActiveForm::end();

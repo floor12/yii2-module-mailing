@@ -47,8 +47,8 @@ class MailingListItemBatchForm extends Model
     public function attributeLabels()
     {
         return [
-            'listId' => Yii::t('mailing', 'Mailing list'),
-            'data' => Yii::t('mailing', 'Addresses'),
+            'listId' => Yii::t('app.f12.mailing', 'Mailing list'),
+            'data' => Yii::t('app.f12.mailing', 'Addresses'),
         ];
     }
 

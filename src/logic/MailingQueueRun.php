@@ -39,10 +39,10 @@ class MailingQueueRun
     {
 
         if (!$this->_mailing)
-            return Yii::t('mailing', 'The queue is empty.');
+            return Yii::t('app.f12.mailing', 'The queue is empty.');
 
         if (!$this->_mailing->recipients)
-            return Yii::t('mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
+            return Yii::t('app.f12.mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
 
         $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
 
@@ -120,7 +120,7 @@ class MailingQueueRun
     {
         $this->_mailing->status = $status;
         if (!$this->_mailing->save(true, ['status']))
-            throw new ErrorException(Yii::t('mailing', 'Incorrect attempt to set status.'));
+            throw new ErrorException(Yii::t('app.f12.mailing', 'Incorrect attempt to set status.'));
     }
 
     private function replaceLinks()

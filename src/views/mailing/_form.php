@@ -31,7 +31,7 @@ $this->registerJs("mailingType()");
 ?>
 
 <div class="modal-header">
-    <h2><?= $model->isNewRecord ? Yii::t('mailing', 'Newsletter creation') : Yii::t('mailing', 'Newsletter update'); ?></h2>
+    <h2><?= $model->isNewRecord ? Yii::t('app.f12.mailing', 'Newsletter creation') : Yii::t('app.f12.mailing', 'Newsletter update'); ?></h2>
 </div>
 <div class="modal-body">
 
@@ -82,8 +82,8 @@ $this->registerJs("mailingType()");
 </div>
 
 <div class="modal-footer">
-    <?= Html::a(Yii::t('mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
-    <?= Html::submitButton($model->isNewRecord ? Yii::t('mailing', 'Create') : Yii::t('mailing', 'Save'), ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('app.f12.mailing', 'Cancel'), '', ['class' => 'btn btn-default modaledit-disable']) ?>
+    <?= Html::submitButton($model->isNewRecord ? Yii::t('app.f12.mailing', 'Create') : Yii::t('app.f12.mailing', 'Save'), ['class' => 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

@@ -45,8 +45,8 @@ class MailingLink extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'mailing_id' => Yii::t('mailing', 'The link to the newsletter'),
-            'link' => Yii::t('mailing', 'Link body'),
+            'mailing_id' => Yii::t('app.f12.mailing', 'The link to the newsletter'),
+            'link' => Yii::t('app.f12.mailing', 'Link body'),
             'hash' => 'Hash',
         ];
     }

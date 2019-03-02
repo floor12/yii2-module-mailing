@@ -91,26 +91,26 @@ class Module extends \yii\base\Module
         $this->registerTranslations();
 
         if (!$this->fromEmail)
-            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$fromEmail'));
+            throw new InvalidConfigException(Yii::t('app.f12.mailing', 'No parameter specified in module configuration {0}', '$fromEmail'));
 
         if (!$this->fromName)
-            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$fromName'));
+            throw new InvalidConfigException(Yii::t('app.f12.mailing', 'No parameter specified in module configuration {0}', '$fromName'));
 
         if (!$this->htmlTemplate)
-            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$htmlTemplate'));
+            throw new InvalidConfigException(Yii::t('app.f12.mailing', 'No parameter specified in module configuration {0}', '$htmlTemplate'));
 
         if (!$this->domain)
-            throw new InvalidConfigException(Yii::t('mailing', 'No parameter specified in module configuration {0}', '$domain'));
+            throw new InvalidConfigException(Yii::t('app.f12.mailing', 'No parameter specified in module configuration {0}', '$domain'));
     }
 
     public function registerTranslations()
     {
-        Yii::$app->i18n->translations['mailing'] = [
+        Yii::$app->i18n->translations['app.f12.mailing'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => 'en-US',
             'basePath' => __DIR__ . DIRECTORY_SEPARATOR . 'messages',
             'fileMap' => [
-                'mailing' => 'mailing.php',
+                'app.f12.mailing' => 'mailing.php',
             ],
         ];
     }

@@ -24,7 +24,7 @@ class MailingClick
     {
         $this->_link = MailingLink::findOne(['hash' => $hash]);
         if (!$this->_link)
-            throw new NotFoundHttpException(Yii::t('mailing', 'Link not found.'));
+            throw new NotFoundHttpException(Yii::t('app.f12.mailing', 'Link not found.'));
 
         $this->_stat = new MailingStat();
     }
@@ -35,7 +35,7 @@ class MailingClick
         $this->_stat->link_id = $this->_link->id;
         $this->_stat->timestamp = time();
         if (!$this->_stat->save())
-            throw new ErrorException(Yii::t('mailing', 'An error occurred while saving the statistics.'));
+            throw new ErrorException(Yii::t('app.f12.mailing', 'An error occurred while saving the statistics.'));
         return $this->_link->link;
     }
 }

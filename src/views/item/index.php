@@ -25,7 +25,7 @@ use yii\widgets\Pjax;
 
 MailingAsset::register($this);
 
-$this->title = Yii::t('mailing', 'Addresses');
+$this->title = Yii::t('app.f12.mailing', 'Addresses');
 
 
 echo Html::tag('h1', $this->title);
@@ -35,12 +35,12 @@ echo Html::tag('h1', $this->title);
     <div class="pull-right">
         <?php
 
-        echo Html::a(IconHelper::ADD_USER . " " . Yii::t('mailing', 'Add recipient'), null, [
+        echo Html::a(IconHelper::ADD_USER . " " . Yii::t('app.f12.mailing', 'Add recipient'), null, [
                 'onclick' => EditModalHelper::showForm(['/mailing/item/form'], 0),
                 'class' => 'btn btn-sm btn-default'
             ]) . " ";
 
-        echo Html::a(IconHelper::ADD_BATCH . " " . Yii::t('mailing', 'Add list'), null, [
+        echo Html::a(IconHelper::ADD_BATCH . " " . Yii::t('app.f12.mailing', 'Add list'), null, [
                 'onclick' => EditModalHelper::showForm(['/mailing/item/batch'], 0),
                 'class' => 'btn btn-sm btn-default'
             ]) . " ";
@@ -63,13 +63,13 @@ $form = ActiveForm::begin([
     <div class="filter-block">
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('mailing', 'Filter...')]) ?>
+                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('app.f12.mailing', 'Filter...')]) ?>
             </div>
             <div class="col-md-3">
-                <?= $form->field($model, 'list_id')->label(false)->dropDownList(MailingList::find()->forSelect(), ['prompt' => Yii::t('mailing', 'All lists')]) ?>
+                <?= $form->field($model, 'list_id')->label(false)->dropDownList(MailingList::find()->forSelect(), ['prompt' => Yii::t('app.f12.mailing', 'All lists')]) ?>
             </div>
             <div class="col-md-3">
-                <?= $form->field($model, 'status')->label(false)->dropDownList(MailingListItemStatus::listData(), ['prompt' => Yii::t('mailing', 'All statuses')]) ?>
+                <?= $form->field($model, 'status')->label(false)->dropDownList(MailingListItemStatus::listData(), ['prompt' => Yii::t('app.f12.mailing', 'All statuses')]) ?>
             </div>
         </div>
 

@@ -53,10 +53,10 @@ class MailingList extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => Yii::t('mailing', 'List name'),
-            'status' =>  Yii::t('mailing', 'Hide'),
-            'listItemsActiveCount' =>  Yii::t('mailing', 'Active addresses'),
-            'itemsUnsubscribedCount' => Yii::t('mailing', 'Unsubscribe'),
+            'title' => Yii::t('app.f12.mailing', 'List name'),
+            'status' =>  Yii::t('app.f12.mailing', 'Hide'),
+            'listItemsActiveCount' =>  Yii::t('app.f12.mailing', 'Active addresses'),
+            'itemsUnsubscribedCount' => Yii::t('app.f12.mailing', 'Unsubscribe'),
         ];
     }
 

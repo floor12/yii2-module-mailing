@@ -52,13 +52,13 @@ class MailingListItem extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'list_id' => Yii::t('mailing', 'The link to the newsletter'),
-            'list' => Yii::t('mailing', 'List'),
+            'list_id' => Yii::t('app.f12.mailing', 'The link to the newsletter'),
+            'list' => Yii::t('app.f12.mailing', 'List'),
             'email' => 'Email',
-            'status' => Yii::t('mailing', 'Status'),
-            'status_string' => Yii::t('mailing', 'Status'),
-            'sex' => Yii::t('mailing', 'Recipient gender'),
-            'fullname' => Yii::t('mailing', 'Recipient name'),
+            'status' => Yii::t('app.f12.mailing', 'Status'),
+            'status_string' => Yii::t('app.f12.mailing', 'Status'),
+            'sex' => Yii::t('app.f12.mailing', 'Recipient gender'),
+            'fullname' => Yii::t('app.f12.mailing', 'Recipient name'),
         ];
     }
 

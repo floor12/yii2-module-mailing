@@ -22,15 +22,15 @@ class TabWidget extends Widget
     {
         $this->items = [
             [
-                'name' => Yii::t('mailing', 'Newsletters'),
+                'name' => Yii::t('app.f12.mailing', 'Newsletters'),
                 'href' => Url::toRoute(['/mailing/mailing'])
             ],
             [
-                'name' => Yii::t('mailing', 'Address list'),
+                'name' => Yii::t('app.f12.mailing', 'Address list'),
                 'href' => Url::toRoute(['/mailing/list'])
             ],
             [
-                'name' => Yii::t('mailing', 'Addresses'),
+                'name' => Yii::t('app.f12.mailing', 'Addresses'),
                 'href' => Url::toRoute(['/mailing/item'])
             ],
         ];

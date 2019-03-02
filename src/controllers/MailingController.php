@@ -47,7 +47,7 @@ class MailingController extends Controller
         $id = (int)Yii::$app->request->post('id');
         $model = Mailing::findOne($id);
         if (!$model)
-            throw new NotFoundHttpException(Yii::t('mailing', 'Newsletter {0} not found', $id));
+            throw new NotFoundHttpException(Yii::t('app.f12.mailing', 'Newsletter {0} not found', $id));
 
         Yii::createObject(MailingSend::class, [$model])->execute();
     }
@@ -70,12 +70,12 @@ class MailingController extends Controller
                     'lists' => MailingList::find()->forSelect(),
                     'module' => Yii::$app->getModule('mailing')
                 ],
-                'message' => Yii::t('mailing', 'Newsletter saved')
+                'message' => Yii::t('app.f12.mailing', 'Newsletter saved')
             ],
             'delete' => [
                 'class' => \floor12\editmodal\DeleteAction::className(),
                 'model' => Mailing::className(),
-                'message' => Yii::t('mailing', 'Newsletter deleted')
+                'message' => Yii::t('app.f12.mailing', 'Newsletter deleted')
             ],
         ];
     }

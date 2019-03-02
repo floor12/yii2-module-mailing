@@ -41,7 +41,7 @@ class MailingUnsubscribe
         ])->one();
 
         if (!$emailItem)
-            throw new BadRequestHttpException(Yii::t('mailing', 'Email not found'));
+            throw new BadRequestHttpException(Yii::t('app.f12.mailing', 'Email not found'));
 
         $emailItem->status = MailingListItemStatus::STATUS_UNSUBSCRIBED;
         $emailItem->save(true, ['status']);
