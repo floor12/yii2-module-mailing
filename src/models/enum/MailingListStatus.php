@@ -22,6 +22,5 @@ class MailingListStatus extends BaseEnum
         self::STATUS_HIDE => 'Hidden',
     ];
 
-    public static     public static $messageCategory = 'app.f12.mailing';
-= 'mailing';
+    public static $messageCategory = 'app.f12.mailing';
 }
