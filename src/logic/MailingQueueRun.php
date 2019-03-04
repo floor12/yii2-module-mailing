@@ -46,7 +46,7 @@ class MailingQueueRun
         if (!$this->_mailing->recipients)
             return Yii::t('app.f12.mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
 
-//        $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
+        $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
 
         $this->getContentImages();
 
@@ -91,10 +91,10 @@ class MailingQueueRun
                 $this->_errors[] = $recipientRow['email'];
         }
 
-        //   $this->currentMailingStatusChange(MailingStatus::STATUS_SEND);
+        $this->currentMailingStatusChange(MailingStatus::STATUS_SEND);
 
         $ret = "success: " . sizeof($this->_send);
-git         if ($this->_errors)
+        if ($this->_errors)
             $ret .= "\nerrors: " . sizeof($this->_errors);
         return $ret;
     }
