@@ -24,6 +24,8 @@ class MailingQueueRun
     private $_module;
     private $_send = [];
     private $_errors = [];
+    private $contentImages = [];
+    private $cids = [];
 
     public function __construct()
     {
@@ -44,42 +46,55 @@ class MailingQueueRun
         if (!$this->_mailing->recipients)
             return Yii::t('app.f12.mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
 
-        $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
+//        $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
+
+        $this->getContentImages();
 
         $this->replaceLinks();
 
         foreach ($this->_mailing->recipients as $recipientRow) {
             $hash = md5($recipientRow['email'] . time());
 
-            $mail = \Yii::$app
+            $message = \Yii::$app
                 ->mailer
-                ->compose(
-                    ['html' => $this->_module->htmlTemplate],
-                    [
-                        'content' => $this->proccessVars($this->_mailing->content, $recipientRow),
-                        'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash),
-                        'unsubscribeUrl' => MailingUnsubscribe::makeUrl($recipientRow['email'], (int)$this->_mailing->list_id)
-                    ]
-                )
+                ->compose()
                 ->setFrom([$this->_module->fromEmail => $this->_module->fromName])
                 ->setTo($recipientRow['email'])
                 ->setSubject($this->_mailing->title);
 
             if (Yii::$app->id != 'testapp' && $this->_mailing->files)
-                foreach ($this->_mailing->files as $file)
-                    $mail->attach($file->rootPath, ['fileName' => $file->title]);
+                foreach ($this->_mailing->files as $file) {
+                    $filename = "/files/default/get?hash=" . $file->hash;
+                    if (in_array($filename, $this->contentImages)) {
+                        $this->cids[$message->embed($file->rootPath)] = $filename;
+                    } else
+                        $message->attach($file->rootPath, ['fileName' => $file->title]);
+                }
 
+            if ($this->cids)
+                foreach ($this->cids as $cid => $filename) {
+                    $this->_mailing->content = str_replace($filename, $cid, $this->_mailing->content);
+                }
 
-            if ($mail->send())
+            $html = Yii::$app->getView()->render($this->_module->htmlTemplate, [
+                'content' => $this->proccessVars($this->_mailing->content, $recipientRow),
+                'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash),
+                'unsubscribeUrl' => MailingUnsubscribe::makeUrl($recipientRow['email'], (int)$this->_mailing->list_id)
+
+            ]);
+
+            $message->setHtmlBody($html);
+
+            if ($message->send())
                 $this->_send[] = $recipientRow['email'];
             else
                 $this->_errors[] = $recipientRow['email'];
         }
 
-        $this->currentMailingStatusChange(MailingStatus::STATUS_SEND);
+        //   $this->currentMailingStatusChange(MailingStatus::STATUS_SEND);
 
         $ret = "success: " . sizeof($this->_send);
-        if ($this->_errors)
+git         if ($this->_errors)
             $ret .= "\nerrors: " . sizeof($this->_errors);
         return $ret;
     }
@@ -123,9 +138,15 @@ class MailingQueueRun
             throw new ErrorException(Yii::t('app.f12.mailing', 'Incorrect attempt to set status.'));
     }
 
+    private function getContentImages()
+    {
+        preg_match_all('/<img src=[\"]([^"^\']+)[\"]/siU', $this->_mailing->content, $matches);
+        $this->contentImages = $matches[1];
+    }
+
     private function replaceLinks()
     {
-        preg_match_all('/<a href=[\"]([^"^\']+)[\"]/siU', $this->_mailing->content, $matches);
+        preg_match_all('/<a href=[\"]([^" ^ \']+)[\"]/siU', $this->_mailing->content, $matches);
         $urlArray = array_unique($matches[1]);
         if ($urlArray)
             foreach ($urlArray as $url) {
