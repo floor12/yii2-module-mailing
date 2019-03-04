@@ -17,7 +17,6 @@ use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\enum\MailingType;
 use floor12\mailing\models\Mailing;
 use floor12\mailing\widgets\TabWidget;
-use rmrevin\yii\fontawesome\FontAwesome;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -93,8 +92,8 @@ echo GridView::widget([
                 $ret = '';
                 if ($model->status == MailingStatus::STATUS_DRAFT)
                     $ret .= Html::a(IconHelper::SEND, NULL, ['onclick' => "sendMailing({$model->id})", 'class' => 'btn btn-default btn-sm']) . " ";
-                $ret .= Html::a(FontAwesome::icon('pencil'), NULL, ['onclick' => EditModalHelper::showForm(['/mailing/mailing/form'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
-                $ret .= Html::a(FontAwesome::icon('trash'), NULL, ['onclick' => EditModalHelper::deleteItem(['/mailing/mailing/delete'], $model->id), 'class' => 'btn btn-default btn-sm']) . " ";
+                $ret .= EditModalHelper::editBtn('/mailing/mailing/form', $model->id);
+                $ret .= EditModalHelper::deleteBtn('/mailing/mailing/delete', $model->id);
                 return $ret;
             },
         ]
