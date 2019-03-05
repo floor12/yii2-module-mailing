@@ -21,6 +21,7 @@ class MailingQueueRun
 {
 
     private $_mailing;
+    private $_content;
     private $_module;
     private $_send = [];
     private $_errors = [];
@@ -46,7 +47,7 @@ class MailingQueueRun
         if (!$this->_mailing->recipients)
             return Yii::t('app.f12.mailing', 'Mailing list id: {0} is empty.', $this->_mailing->id);
 
-        $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
+        //  $this->currentMailingStatusChange(MailingStatus::STATUS_SENDING);
 
         $this->getContentImages();
 
@@ -54,6 +55,10 @@ class MailingQueueRun
 
         foreach ($this->_mailing->recipients as $recipientRow) {
             $hash = md5($recipientRow['email'] . time());
+
+            $content = strval($this->_mailing->content);
+
+            $this->cids = [];
 
             $message = \Yii::$app
                 ->mailer
@@ -73,11 +78,11 @@ class MailingQueueRun
 
             if ($this->cids)
                 foreach ($this->cids as $cid => $filename) {
-                    $this->_mailing->content = str_replace($filename, $cid, $this->_mailing->content);
+                    $content = str_replace($filename, $cid, $content);
                 }
 
             $html = Yii::$app->getView()->render($this->_module->htmlTemplate, [
-                'content' => $this->proccessVars($this->_mailing->content, $recipientRow),
+                'content' => $this->proccessVars($content, $recipientRow),
                 'gifUrl' => $this->_module->makeStatGifUrl($this->_mailing->id, $hash),
                 'unsubscribeUrl' => MailingUnsubscribe::makeUrl($recipientRow['email'], (int)$this->_mailing->list_id)
 
@@ -124,7 +129,7 @@ class MailingQueueRun
         } else {
             $content = str_replace("[%Dear]", 'Уважаемый(ая)', $content);
             $content = str_replace("[%dear]", 'уважаемый(ая)', $content);
-        } // ToDo: !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
         return $content;
     }
 
@@ -140,13 +145,13 @@ class MailingQueueRun
 
     private function getContentImages()
     {
-        preg_match_all('/<img src=[\"]([^"^\']+)[\"]/siU', $this->_mailing->content, $matches);
+        preg_match_all('/[\(|\"](\/files\/default\/get.+)[\)|\"]/siU', $this->_mailing->content, $matches);
         $this->contentImages = $matches[1];
     }
 
     private function replaceLinks()
     {
-        preg_match_all('/<a href=[\"]([^" ^ \']+)[\"]/siU', $this->_mailing->content, $matches);
+        preg_match_all('/<a href=[\"]([^"^\']+)[\"]/siU', $this->_mailing->content, $matches);
         $urlArray = array_unique($matches[1]);
         if ($urlArray)
             foreach ($urlArray as $url) {

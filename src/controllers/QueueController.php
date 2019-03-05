@@ -16,7 +16,7 @@ class QueueController extends Controller
 {
     public function actionIndex()
     {
-        Yii::createObject(MailingQueueRun::class, [])->execute();
+        echo Yii::createObject(MailingQueueRun::class, [])->execute() . PHP_EOL;
 
     }
 
