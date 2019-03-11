@@ -40,7 +40,7 @@ echo Html::tag('h1', $this->title);
                 'class' => 'btn btn-sm btn-default'
             ]) . " ";
 
-        echo Html::a(IconHelper::ADD_BATCH . " " . Yii::t('app.f12.mailing', 'Add list'), null, [
+        echo Html::a(IconHelper::ADD_BATCH . " " . Yii::t('app.f12.mailing', 'Add batch'), null, [
                 'onclick' => EditModalHelper::showForm(['/mailing/item/batch'], 0),
                 'class' => 'btn btn-sm btn-default'
             ]) . " ";
