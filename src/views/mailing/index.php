@@ -81,7 +81,10 @@ echo GridView::widget([
         [
             'attribute' => 'status',
             'content' => function (Mailing $model) {
-                return MailingStatus::getLabel($model->status);
+                $html = MailingStatus::getLabel($model->status);
+                if ($model->status == MailingStatus::STATUS_SEND)
+                    $html .= Html::tag('div', Yii::$app->formatter->asDatetime($model->send), ['class' => 'small']);
+                return $html;
             }
         ],
         'recipient_total',
