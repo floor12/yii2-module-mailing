@@ -11,7 +11,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 

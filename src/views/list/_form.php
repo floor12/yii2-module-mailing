@@ -10,9 +10,8 @@
  *
  */
 
-use Yii;
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 $form = ActiveForm::begin([
     'options' => ['class' => 'modaledit-form'],
