@@ -35,8 +35,7 @@ class StatController extends Controller
     public function actionGif($id, $hash)
     {
         Yii::createObject(MailingView::class, [$id, $hash])->execute();
-        header('Content-Type: image/gif');
-        readfile(\Yii::getAlias('@vendor/floor12/yii2-module-mailing/src/assets/1x1.gif'));
+        Yii::$app->response->sendFile(\Yii::getAlias('@vendor/floor12/yii2-module-mailing/src/assets/1x1.gif'), '1x1.gif');
     }
 
     public function actionUnsubscribe()
