@@ -32,7 +32,7 @@
     "floor12/yii2-summernote": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "7.*"
   },
   "autoload": {
     "psr-4": {
