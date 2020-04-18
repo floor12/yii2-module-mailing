@@ -11,6 +11,7 @@ namespace floor12\mailing\logic;
 use floor12\mailing\models\enum\MailingListItemSex;
 use floor12\mailing\models\enum\MailingStatus;
 use floor12\mailing\models\Mailing;
+use Swift_TransportException;
 use Yii;
 use yii\base\ErrorException;
 
@@ -90,10 +91,19 @@ class MailingQueueRun
 
             $message->setHtmlBody($html);
 
-            if ($message->send())
-                $this->_send[] = $recipientRow['email'];
-            else
+            try {
+                if ($message->send())
+                    $this->_send[] = $recipientRow['email'];
+                else
+                    $this->_errors[] = $recipientRow['email'];
+            } catch (Swift_TransportException $exception) {
+                Yii::error($exception->getMessage());
                 $this->_errors[] = $recipientRow['email'];
+            } catch (\ErrorException $exception) {
+                Yii::error($exception->getMessage());
+                $this->_errors[] = $recipientRow['email'];
+            }
+
         }
 
         $this->currentMailingStatusChange(MailingStatus::STATUS_SEND);
