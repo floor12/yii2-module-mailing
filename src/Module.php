@@ -65,7 +65,7 @@ class Module extends \yii\base\Module
     /** Имя шаблона для отправки рассылок
      * @var string
      */
-    public $htmlTemplate = "@vendor/floor12/yii2-module-mailing/src/views/mailing-main";
+    public $htmlTemplate = "@vendor/floor12/yii2-module-mailing/src/views/mailing-main.php";
 
     /** Адрес электронной почты, который подставлять в отправителя
      * @var string

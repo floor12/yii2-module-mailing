@@ -11,11 +11,8 @@ namespace floor12\mailing\tests;
 use Yii;
 use yii\console\Application;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-
-    public $sqlite = 'tests/sqlite.db';
-
 
     /**
      * @inheritdoc
@@ -56,7 +53,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'class' => 'floor12\mailing\Module',
             'fromEmail' => 'test@example.com',
             'fromName' => 'Служба рассылки',
-            'htmlTemplate' => 'mailing-test-html',
+            'htmlTemplate' => '@vendor/../src/views/mailing-main.php',
             'layout' => 'test',
             'linkedModels' => [
                 User::class
