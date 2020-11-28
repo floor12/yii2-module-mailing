@@ -102,7 +102,7 @@ class m180712_083434_mailing extends Migration
         $this->createIndex("idx-mailing_link-mailing_id", "{{%mailing_link}}", "mailing_id");
         $this->createIndex("idx-mailing_link-link", "{{%mailing_link}}", "link");
         $this->createIndex("idx-mailing_link-hash", "{{%mailing_link}}", "hash");
-
+ 
         $this->addForeignKey("fk-mailing_link", "{{%mailing_link}}", "mailing_id", "{{%mailing}}", "id", "CASCADE", "CASCADE");
 
         // MAILING STAT
@@ -113,7 +113,7 @@ class m180712_083434_mailing extends Migration
             'timestamp' => $this->integer()->notNull()->comment('Временная метка'),
         ], $tableOptions);
 
-        $this->createIndex("idx-mailing_link-mailing_id", "{{%mailing_stat}}", "mailing_id");
+        $this->createIndex("idx-mailing_link-mailing_stat", "{{%mailing_stat}}", "mailing_id");
         $this->createIndex("idx-mailing_link-link_id", "{{%mailing_stat}}", "link_id");
         $this->createIndex("idx-mailing_link-timestamp", "{{%mailing_stat}}", "timestamp");
 
