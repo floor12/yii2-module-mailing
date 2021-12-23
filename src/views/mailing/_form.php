@@ -39,7 +39,10 @@ $this->registerJs("mailingType()");
 
     <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'content')->widget(Summernote::class, []) ?>
+    <?= $form->field($model, 'content')->widget(Summernote::class, [
+        'fileField' => 'files',
+        'fileModelClass' => \floor12\mailing\models\Mailing::class
+    ]) ?>
 
     <?= $form->field($model, 'files')->widget(FileInputWidget::class, []); ?>
 
