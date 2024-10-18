@@ -15,11 +15,13 @@ class MailingListItemStatus extends BaseEnum
 {
     const STATUS_ACTIVE = 0;
     const STATUS_UNSUBSCRIBED = 1;
+    const STATUS_NOT_CONFIRMED = 2;
 
 
     static public $list = [
         self::STATUS_ACTIVE => 'Active',
         self::STATUS_UNSUBSCRIBED => 'Unsubscribed',
+        self::STATUS_NOT_CONFIRMED => 'Not confirmed',
     ];
 
     public static $messageCategory = 'app.f12.mailing';
