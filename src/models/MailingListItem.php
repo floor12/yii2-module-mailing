@@ -15,12 +15,13 @@ use Yii;
  * @property int $fullname Полное имя
  * @property int $sex Пол получателя
  * @property string $status_string Статус
+ * @property string $hash Hash
  *
  * @property MailingList $list
  */
 class MailingListItem extends \yii\db\ActiveRecord
 {
- 
+
     /**
      * {@inheritdoc}
      */
